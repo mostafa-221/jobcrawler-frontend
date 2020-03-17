@@ -1,23 +1,20 @@
-
 <form [formGroup]="jobForm">
-  <mat-form-field>
-    <mat-label>Plaats</mat-label>
-    <input matInput formControlName="plaats">
-  </mat-form-field>
+    <mat-form-field>
+        <mat-label>Plaats</mat-label>
+        <input matInput formControlName="plaats">
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Afstand</mat-label>
-      <input matInput formControlName="afstand">
-  </mat-form-field>
+    <mat-form-field>
+        <mat-label>Afstand</mat-label>
+        <input matInput formControlName="afstand">
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Sleutelwoorden</mat-label>
-    <input matInput formControlName="sleutelwoorden">
-  </mat-form-field>
+    <mat-form-field>
+        <mat-label>Sleutelwoorden</mat-label>
+        <input matInput formControlName="sleutelwoorden">
+    </mat-form-field>
 </form>
 
-<button (click)="submit()" [disabled]="jobForm.pristine || jobForm.invalid" mat-raised-button color="accent">Show values</button>
-
-<button (click)="getGreeting()" mat-raised-button color="accent">Greeting</button>
-
-<span>{{greeting}}</span>
+<button (click)="submit()" mat-raised-button color="accent">
+    Search request
+</button>
