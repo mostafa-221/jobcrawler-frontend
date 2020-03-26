@@ -41,7 +41,7 @@ export class FormComponent implements OnInit {
             keywords: sleutelwoorden
         };
 
-        this.http.post(environment.api + '/searchrequest', body).subscribe((data: any) => alert(data.texts));
+        this.http.post(environment.api + '/searchrequest', body).subscribe((data: any) => alert(data.queries));
     };
 
 }
