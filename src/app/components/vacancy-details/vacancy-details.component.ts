@@ -18,8 +18,8 @@ export class VacancyDetailsComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient) { }
 
   ngOnInit(): void {
-  this.id = this.route.snapshot.params.id;
-  this.http.get(environment.api + '/getByID/' + this.route.snapshot.params.id).subscribe((data: any) => {
+  this.id = this.route.snapshot.params.id; // Need the ID variable if the vacancy is not found
+  this.http.get(environment.api + '/getByID/' + this.id).subscribe((data: any) => {
        console.log(data);
        this.vacancy = data;
     }, err => {
