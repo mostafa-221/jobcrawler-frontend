@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {MatDialog} from "@angular/material/dialog";
-import {environment} from "../../../environments/environment";
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {environment} from '../../../environments/environment';
+import {IVacancies} from '../../ivacancies';
 
 @Component({
     selector: 'app-form',
@@ -13,11 +13,15 @@ export class FormComponent implements OnInit {
 
     public greeting: string;
     jobForm: FormGroup;
+    submitted = false;
+
+    displayedColumns: string[] = ['title', 'broker', 'location', 'postingDate'];
+    dataSource: any;
+    ELEMENT_DATA: IVacancies[] = [];
 
     constructor(
         private http: HttpClient,
-        private formBuilder: FormBuilder,
-        public  dialog: MatDialog
+        private formBuilder: FormBuilder
     ) {
     }
 
@@ -30,9 +34,10 @@ export class FormComponent implements OnInit {
             plaats: '',
             afstand: '',
             sleutelwoorden: ''
-        });
+        })
 
     submit = () => {
+        this.submitted = true;
         const {plaats, afstand, sleutelwoorden} = this.jobForm.value;
 
         const body = {
@@ -41,7 +46,21 @@ export class FormComponent implements OnInit {
             keywords: sleutelwoorden
         };
 
-        this.http.post(environment.api + '/searchrequest', body).subscribe((data: any) => alert(data.queries));
-    };
+        // this.http.post(environment.api + '/searchrequest', body).subscribe((data: any) => {
+        this.http.get(environment.api + '/getAllJobs').subscribe((data: any) => {
+            console.log(data);
+            data.forEach(val => {
+               this.ELEMENT_DATA.push({
+                   title: val.title,
+                   broker: val.broker,
+                   postingDate: val.postingDate,
+                   location: val.location,
+                   url: val.id
+               });
+            });
+            this.dataSource = this.ELEMENT_DATA;
+        });
+        this.submitted = false;
+    }
 
 }
