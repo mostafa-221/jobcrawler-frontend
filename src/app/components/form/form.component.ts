@@ -15,7 +15,7 @@ export class FormComponent implements OnInit {
     jobForm: FormGroup;
     submitted = false;
 
-    displayedColumns: string[] = ['title', 'broker', 'location', 'postingDate'];
+    displayedColumns: string[] = ['title', 'broker', 'location', 'postingDate', 'openVacancyURL'];
     dataSource: any;
     ELEMENT_DATA: IVacancies[] = [];
 
@@ -55,7 +55,8 @@ export class FormComponent implements OnInit {
                    broker: val.broker,
                    postingDate: val.postingDate,
                    location: val.location,
-                   url: val.id
+                   url: val.id,
+                   vacancyUrl: val.vacancyURL
                });
             });
             this.dataSource = this.ELEMENT_DATA;

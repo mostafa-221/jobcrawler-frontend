@@ -4,4 +4,5 @@ export interface IVacancies {
     location: string;
     postingDate: string;
     url: string;
+    vacancyUrl: string;
 }
