@@ -1,0 +1,58 @@
+<div class="container">
+    <div fxLayout="row" fxLayoutAlign="center center" class="content">
+        <mat-card class="card">
+            <mat-card-title fxLayout.gt-xs="row" fxLayout.xs="column">
+                <h3>Vacancy {{id}}</h3>
+            </mat-card-title>
+            <mat-card-content>
+                <div>
+                    <p *ngIf="errorMSG">{{errorMSG}}</p>
+
+                    <div *ngIf="vacancy">
+                        <div>
+                            <label><b>ID</b></label> {{vacancy.id}}
+                        </div>
+                        <div>
+                            <label><b>URL</b></label> {{vacancy.vacancyURL}}
+                        </div>
+                        <div>
+                            <label><b>Title</b></label> {{vacancy.title}}
+                        </div>
+                        <div>
+                            <label><b>Broker</b></label> {{vacancy.broker}}
+                        </div>
+                        <div>
+                            <label><b>Aanvraagnummer</b></label> {{vacancy.vacancyNumber}}
+                        </div>
+                        <div>
+                            <label><b>Hours</b></label> {{vacancy.hours}}
+                        </div>
+                        <div>
+                            <label><b>About</b></label> {{vacancy.about}}
+                        </div>
+                        <div>
+                            <label><b>Location</b></label> {{vacancy.location}}
+                        </div>
+                        <div>
+                            <label><b>Posting Date</b></label> {{vacancy.postingDate}}
+                        </div>
+                        <div>
+                            <label><b>SkillSet</b></label>
+                            <mat-list>
+                                <mat-list-item *ngFor="let skill of vacancy.skillSet">
+                                    {{skill}}
+                                </mat-list-item>
+                            </mat-list>
+                        </div>
+                    </div>
+
+                    <a routerLink="/">
+                        <button mat-raised-button color="accent">
+                            Back to index
+                        </button>
+                    </a>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

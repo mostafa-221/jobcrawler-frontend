@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {MatDialog} from "@angular/material/dialog";
-import {environment} from "../../../environments/environment";
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {environment} from '../../../environments/environment';
+import {IVacancies} from '../../models/ivacancies';
 
 @Component({
     selector: 'app-form',
@@ -11,13 +11,14 @@ import {environment} from "../../../environments/environment";
 })
 export class FormComponent implements OnInit {
 
-    public greeting: string;
     jobForm: FormGroup;
+
+    displayedColumns: string[] = ['title', 'broker', 'location', 'postingDate', 'openVacancyURL'];
+    vacancies: IVacancies[] = [];
 
     constructor(
         private http: HttpClient,
-        private formBuilder: FormBuilder,
-        public  dialog: MatDialog
+        private formBuilder: FormBuilder
     ) {
     }
 
@@ -25,14 +26,15 @@ export class FormComponent implements OnInit {
         this.getForm();
     }
 
-    getForm = () =>
+    getForm(): void {
         this.jobForm = this.formBuilder.group({
             plaats: '',
             afstand: '',
             sleutelwoorden: ''
         });
+    }
 
-    submit = () => {
+    submit(): void {
         const {plaats, afstand, sleutelwoorden} = this.jobForm.value;
 
         const body = {
@@ -41,7 +43,18 @@ export class FormComponent implements OnInit {
             keywords: sleutelwoorden
         };
 
-        this.http.post(environment.api + '/searchrequest', body).subscribe((data: any) => alert(data.queries));
-    };
+        this.http.post(environment.api + '/searchrequest', body).subscribe((data: any) => {
+            data.vacancies.forEach(vacancy => {
+                this.vacancies.push({
+                    title: vacancy.title,
+                    broker: vacancy.broker,
+                    postingDate: vacancy.postingDate,
+                    location: vacancy.location,
+                    url: vacancy.id,
+                    vacancyUrl: vacancy.vacancyURL
+                });
+            });
+        });
+    }
 
 }
