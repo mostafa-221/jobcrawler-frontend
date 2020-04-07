@@ -36,7 +36,7 @@ export class FormComponent implements OnInit {
             sleutelwoorden: ''
         })
 
-    submit = () => {
+    submit: void {
         this.submitted = true;
         const {plaats, afstand, sleutelwoorden} = this.jobForm.value;
 
