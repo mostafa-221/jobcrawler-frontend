@@ -27,7 +27,7 @@ export class VacancyDetailsComponent implements OnInit {
     });
   }
 
-  index() {
+  index() : void {
       this.router.navigate(['']);
   }
 
