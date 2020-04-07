@@ -15,7 +15,6 @@ export class FormComponent implements OnInit {
 
     displayedColumns: string[] = ['title', 'broker', 'location', 'postingDate', 'openVacancyURL'];
     vacancies: IVacancies[] = [];
-    vacancyData: any;
 
     constructor(
         private http: HttpClient,
@@ -55,7 +54,6 @@ export class FormComponent implements OnInit {
                     vacancyUrl: vacancy.vacancyURL
                 });
             });
-            this.vacancyData = this.vacancies;
         });
     }
 

@@ -28,7 +28,7 @@
                     </button>
                 </div>
                 <div class="table-container">
-                    <table *ngIf="vacancyData!==undefined" mat-table [dataSource]="vacancyData"
+                    <table *ngIf="vacancies.length > 0" mat-table [dataSource]="vacancies"
                            class="mat-elevation-z8">
 
                         <!-- Title Column -->
