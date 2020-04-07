@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {environment} from '../../../environments/environment';
-import {IVacancies} from '../../ivacancies';
+import {IVacancies} from '../../models/ivacancies';
 
 @Component({
     selector: 'app-form',
@@ -11,13 +11,11 @@ import {IVacancies} from '../../ivacancies';
 })
 export class FormComponent implements OnInit {
 
-    public greeting: string;
     jobForm: FormGroup;
-    submitted = false;
 
     displayedColumns: string[] = ['title', 'broker', 'location', 'postingDate', 'openVacancyURL'];
-    dataSource: any;
-    ELEMENT_DATA: IVacancies[] = [];
+    vacancies: IVacancies[] = [];
+    vacancyData: any;
 
     constructor(
         private http: HttpClient,
@@ -29,15 +27,15 @@ export class FormComponent implements OnInit {
         this.getForm();
     }
 
-    getForm = () =>
+    getForm(): void {
         this.jobForm = this.formBuilder.group({
             plaats: '',
             afstand: '',
             sleutelwoorden: ''
-        })
+        });
+    }
 
-    submit: void {
-        this.submitted = true;
+    submit(): void {
         const {plaats, afstand, sleutelwoorden} = this.jobForm.value;
 
         const body = {
@@ -46,22 +44,19 @@ export class FormComponent implements OnInit {
             keywords: sleutelwoorden
         };
 
-        // this.http.post(environment.api + '/searchrequest', body).subscribe((data: any) => {
-        this.http.get(environment.api + '/getAllJobs').subscribe((data: any) => {
-            console.log(data);
-            data.forEach(val => {
-               this.ELEMENT_DATA.push({
-                   title: val.title,
-                   broker: val.broker,
-                   postingDate: val.postingDate,
-                   location: val.location,
-                   url: val.id,
-                   vacancyUrl: val.vacancyURL
-               });
+        this.http.post(environment.api + '/searchrequest', body).subscribe((data: any) => {
+            data.vacancies.forEach(vacancy => {
+                this.vacancies.push({
+                    title: vacancy.title,
+                    broker: vacancy.broker,
+                    postingDate: vacancy.postingDate,
+                    location: vacancy.location,
+                    url: vacancy.id,
+                    vacancyUrl: vacancy.vacancyURL
+                });
             });
-            this.dataSource = this.ELEMENT_DATA;
+            this.vacancyData = this.vacancies;
         });
-        this.submitted = false;
     }
 
 }

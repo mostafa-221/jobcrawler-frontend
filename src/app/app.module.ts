@@ -15,14 +15,14 @@ import {FormComponent} from './components/form/form.component';
 import {AppRoutingModule} from './app-routing.module';
 import {HttpClientModule} from '@angular/common/http';
 import {MatTableModule} from '@angular/material/table';
-import { VacancyDetailsComponent } from './components/vacancy-details/vacancy-details.component';
+import {VacancyDetailsComponent} from './components/vacancy-details/vacancy-details.component';
 import {MatListModule} from '@angular/material/list';
 import {MatIconModule} from '@angular/material/icon';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatCardModule} from '@angular/material/card';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
-import { ConvertStringToDotsPipe } from './convert-string-to-dots.pipe';
+import {ConvertStringToDotsPipe} from './utils/convert-string-to-dots.pipe';
 
 @NgModule({
     declarations: [
