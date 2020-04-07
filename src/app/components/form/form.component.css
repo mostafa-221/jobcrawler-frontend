@@ -2,26 +2,3 @@ table {
     margin-top: 20px;
     width: 80%;
 }
-
-a {
-    color: #ffffff;
-}
-
-.card {
-    min-width: 80%;
-}
-
-.table-container {
-    display: flex;
-    flex-direction: column;
-    min-width: 100%;
-}
-
-.mat-table {
-    overflow: auto;
-    max-height: 500px;
-}
-
-a {
-    cursor: pointer;
-}
