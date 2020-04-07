@@ -10,12 +10,12 @@ mat-toolbar {
     margin-bottom: 20px;
 }
 
-a {
+mat-sidenav-container a {
     text-decoration: none;
 }
 
-a:hover,
-a:active {
+mat-sidenav-container a:hover,
+mat-sidenav-container a:active {
     color: lightgray;
 }
 
