@@ -35,6 +35,9 @@ export class FormComponent implements OnInit {
     }
 
     submit(): void {
+
+        this.vacancies = [];
+
         const {plaats, afstand, sleutelwoorden} = this.jobForm.value;
 
         const body = {
