@@ -1,4 +1,4 @@
-# Use cases front end: specifiek zoeken
+# Use cases front end: Searches on specific items
 
 ## MVP (Minimum viable product)
 
@@ -42,6 +42,14 @@ Here the technical approach for every search parameter is explained:
 **_- What vacancy data fields to scan?_**
 
 ### Edge cases
+- Sometimes the internet may not be accessible. 
+   - What will be returned? 
+   - Does the user get an intelligible error message?
+   
+ - Sometimes the database may not be accessible or connection cannot be made
+   - What will be returned? 
+   - Does the user get an intelligible error message?
+
 - When the user does not fill in any parameters
     - All stored vacancies are returned
 
@@ -65,3 +73,8 @@ Here the technical approach for every search parameter is explained:
 
 - Sorting
     - Being able to sort the found vacancies by their posting date or salary
+
+- In case the internet is not accessible it might be an option to not clear the database but to return results from the database that are stored from previous scraping. (NB. This would imply an unfiltered search from the back end scrapers, all vacancies being stored in the database for each scaping session)
+
+
+
