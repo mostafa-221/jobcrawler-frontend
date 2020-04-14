@@ -13,6 +13,10 @@ After filling in this information and pressing the search button, the returned v
 - Each returned vacancy in the list can be clicked to open the originating broker vacancy detail page
 
 ### Available search parameters
+The following parameters are all optional. 
+Sites are searched for any IT vacancy. This is implied by the URL that is used to find the vacancies for a certain site.
+Within this URL, it is usually possible to limit the searches for IT vacancies only.
+
 - Location
     - The work location the found vacancies are in (only if distance parameter is empty)
 - Distance
