@@ -27,23 +27,41 @@ Within this URL, it is usually possible to limit the searches for IT vacancies o
 ### Technical approach
 The goal of the frontend is to show all vacancies the scrapers have collected, while applying user defined filters.
 
-**_- Who will do the filtering, frontend or backend?_**
+- Who will do the filtering, frontend or backend?
+    - Filtering will be done backend. That way it is not needed to send all data to the frontend, but only the required data.
+    Another reason is that most of us in this project want to gain more java knowledge. 
+    Frontend work will be a bit easier if filtering is done backend.
+    - At this moment `mat-table` is being used from the Material UI. Changing the table from `mat-table` to `datatables` gives any user additional possibilities to filter and search within the table.
 
-Here the technical approach for every search parameter is explained:
 
 #### Location filtering
 
 ##### Frontend
-**_- Suggest locations to prevent typos?_**
+- Suggest locations to prevent typos?
+    - Material UI makes it possible to add autocomplete to any input. Suggestions can be added in the typescript file in a string array. It is a possibility to hardcode all cities into the typescript file or we request those from the backend. More information about retrieving them from the backend can be found below. 
 
 ##### Backend
-**_- How to filter on location?_**
+- How to filter on location?
+    - If we simply want to retrieve vacancies based on a location (request with an empty distance field), we need to have a method/query that selects all vacanacies that match the entered location.
 
 #### Distance filtering
-**_- How to determine which vacancy locations lie within the range? (Google API?)_**
+- How to determine which vacancy locations lie within the range?
+    - Using an API, either Google API or OpenStreetMap api comes with some limitations. If we want to be able to filter on distances we need to add an additional entity named, for example, city. This entity has got the following fields: `location`, `longitude`, `latitude`. The relationship between the vacancies entity and the city entity is a ManyToOne relationship as multiple vacancies can be located in the same city.
+    - It is not a big deal to retrieve the longitude and latitude from a city using https://mapquest.com, which is using the OpenStreetMap api. On a monthly basis we can do 15.000 requests to this api for free.
+    - When adding vacancies we need to check if a record of the location already exists in the city entity (including coordinates). If not, a record should be added including the coordinates. Vacancies that are being added with the same location can use the existing record from the city entity.
+        - Using another api this way saves lots of requests and makes us less dependent from an external source.
+    - To actually filter on distance, the coordinates from both the entered location and vacancy locations are needed. Using some maths makes it possible to calculate the distance in kilometers between these two.
+    - Exisiting locations in the city entity can be retrieved using an api call, which can be used in the `suggest locations to prevent typos (frontend)`.
+        - Keep in mind that when starting the application for the first time, the city entity will be pretty much empty and therefore not return a lot of locations for the suggest locations / autocomplete.
 
 #### Keywords filtering
-**_- What vacancy data fields to scan?_**
+- What vacancy data fields to scan?
+    - At this moment all data from a vacancy is stored in different fields. Some fields aren't going to be used, but the data might still be needed to scan. Therefor it is useful to store the entire vacancy body in a single field.
+        - This makes scraping a page easier. As the vacancy body can look different per vacancy.
+        - Scanning will be easier as there will be less fields to scan.
+    Keywords will first look into the vacancy titles. After that it will look into the vacancy body to see if there is a match on the given keyword(s). Vacancies that match using the title field will be placed above vacancies that match using the body.
+    
+**_Need to discuss which fields we're actually going to show within our application to the user. If we use an icon/button to link to the original vacancy it might be a good idea to remove some fields and store the entire vacancy body in a single field._**
 
 ### Edge cases
 - Sometimes the internet may not be accessible. 
