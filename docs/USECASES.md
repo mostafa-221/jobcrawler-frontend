@@ -28,7 +28,7 @@ Within this URL, it is usually possible to limit the searches for IT vacancies o
 The goal of the frontend is to show all vacancies the scrapers have collected, while applying user defined filters.
 
 - Who will do the filtering, frontend or backend?
-    - Filtering will be done backend. That way it is not needed to send all data to the frontend, but only the required data.
+    - Filtering will be done in the backend. That way it is not needed to send all data to the frontend, but only the required data.
     Another reason is that most of us in this project want to gain more java knowledge. 
     Frontend work will be a bit easier if filtering is done backend.
     - At this moment `mat-table` is being used from the Material UI. Changing the table from `mat-table` to `datatables` gives any user additional possibilities to filter and search within the table.
