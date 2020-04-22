@@ -2,31 +2,32 @@
     <div fxLayout="row" fxLayoutAlign="center center" class="content">
         <mat-card class="card">
             <mat-card-title fxLayout.gt-xs="row" fxLayout.xs="column">
-                <h3>Search vacancies</h3>
+<!--                <h3>Search vacancies</h3>-->
+                <h3>Vacancy list</h3>
             </mat-card-title>
             <mat-card-content>
-                <div>
-                    <form [formGroup]="jobForm">
-                        <mat-form-field>
-                            <mat-label>Plaats</mat-label>
-                            <input matInput formControlName="plaats" color="white">
-                        </mat-form-field>
+<!--                <div>-->
+<!--                    <form [formGroup]="jobForm">-->
+<!--                        <mat-form-field>-->
+<!--                            <mat-label>Plaats</mat-label>-->
+<!--                            <input matInput formControlName="plaats" color="white">-->
+<!--                        </mat-form-field>-->
 
-                        <mat-form-field>
-                            <mat-label>Afstand</mat-label>
-                            <input matInput formControlName="afstand">
-                        </mat-form-field>
+<!--                        <mat-form-field>-->
+<!--                            <mat-label>Afstand</mat-label>-->
+<!--                            <input matInput formControlName="afstand">-->
+<!--                        </mat-form-field>-->
 
-                        <mat-form-field>
-                            <mat-label>Sleutelwoorden</mat-label>
-                            <input matInput formControlName="sleutelwoorden">
-                        </mat-form-field>
-                    </form>
+<!--                        <mat-form-field>-->
+<!--                            <mat-label>Sleutelwoorden</mat-label>-->
+<!--                            <input matInput formControlName="sleutelwoorden">-->
+<!--                        </mat-form-field>-->
+<!--                    </form>-->
 
-                    <button (click)="submit()" mat-raised-button color="accent">
-                        Search request
-                    </button>
-                </div>
+<!--                    <button (click)="submit()" mat-raised-button color="accent">-->
+<!--                        Search request-->
+<!--                    </button>-->
+<!--                </div>-->
                 <div class="table-container">
                     <table *ngIf="vacancies.length > 0" mat-table [dataSource]="vacancies"
                            class="mat-elevation-z8">

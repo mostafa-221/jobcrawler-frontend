@@ -8,5 +8,5 @@ export class Vacancy {
     location: string;
     postingDate: string;
     about: string;
-    skillSet: any[];
+    skills: any[];
 }

@@ -23,7 +23,8 @@ export class FormComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.getForm();
+        // this.getForm();
+        this.submit();
     }
 
     getForm(): void {
@@ -36,17 +37,23 @@ export class FormComponent implements OnInit {
 
     submit(): void {
 
-        this.vacancies = [];
+        // this.vacancies = [];
 
-        const {plaats, afstand, sleutelwoorden} = this.jobForm.value;
+        // const {plaats, afstand, sleutelwoorden} = this.jobForm.value;
 
-        const body = {
-            location: plaats,
-            distance: afstand,
-            keywords: sleutelwoorden
+        // const body = {
+        //     location: plaats,
+        //     distance: afstand,
+        //     keywords: sleutelwoorden
+        // };
+
+        const nullBody = {
+            location: null,
+            distance: null,
+            keywords: null
         };
 
-        this.http.post(environment.api + '/searchrequest', body).subscribe((data: any) => {
+        this.http.post(environment.api + '/searchrequest', nullBody).subscribe((data: any) => {
             data.vacancies.forEach(vacancy => {
                 this.vacancies.push({
                     title: vacancy.title,
