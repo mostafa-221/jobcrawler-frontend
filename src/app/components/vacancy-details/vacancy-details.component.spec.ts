@@ -15,8 +15,8 @@ describe('VacancyDetailsComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [HttpClientTestingModule, RouterTestingModule],
+            declarations: [VacancyDetailsComponent],
             providers: [
-                VacancyDetailsComponent,
                 { provide: ActivatedRoute, useValue: routeMock }
             ]
         });
@@ -25,14 +25,14 @@ describe('VacancyDetailsComponent', () => {
 
         fixture = TestBed.createComponent(VacancyDetailsComponent);
         component = fixture.componentInstance;
-        nativeComponent = fixture.nativeElement;
+        nativeComponent = fixture.debugElement.nativeElement;
     }));
 
     it('should create', () => {
         expect(component).toBeTruthy();
     });
 
-    it('should get vacancy data', () => {
+    it('should get vacancy data and display it', () => {
         const id = routeMock.snapshot.params.id;
         const vacancyUrl = 'http://localhost:8080/getByID/' + id;
         const vacancyMock = {
@@ -59,6 +59,16 @@ describe('VacancyDetailsComponent', () => {
         expect(component.id).toEqual(id);
         expect(component.vacancy.id).toEqual(vacancyMock.id);
         expect(component.vacancy.title).toEqual(vacancyMock.title);
+
+        // Expect vacancy to be shown only after component has detected changes
+        expect(nativeComponent.querySelector('#vacancy')).toBeNull();
+        fixture.detectChanges();
+        const vacancyElement = nativeComponent.querySelector('#vacancy');
+        const vacancyData = nativeComponent.querySelector('#vacancy').children;
+        expect(vacancyElement).toBeTruthy();
+        expect(vacancyData.length).toEqual(10);
+        expect(vacancyData[0].textContent.trim()).toEqual('ID ' + vacancyMock.id);
+        expect(vacancyData[2].textContent.trim()).toEqual('Title ' + vacancyMock.title);
     });
 
     it('should display error', () => {
@@ -68,7 +78,7 @@ describe('VacancyDetailsComponent', () => {
 
         // Initialize component
         expect(component.errorMSG).toBeUndefined();
-        component.ngOnInit();
+        fixture.detectChanges();
 
         // Expect one search request that should be a GET
         const req = httpTestingController.expectOne(vacancyUrl);
@@ -81,10 +91,9 @@ describe('VacancyDetailsComponent', () => {
         expect(component.errorMSG).toEqual(vacancyErrorMock);
 
         // Expect error to be shown only after component has detected changes
-        expect(nativeComponent.querySelector('p')).toEqual(null);
-        //fixture.detectChanges();
-        //const tmp = fixture.nativeElement.querySelector('p');
-        //debugger;
-        //expect(nativeComponent.querySelector('p').textContent).toEqual(vacancyErrorMock);
+        expect(nativeComponent.querySelector('p')).toBeNull();
+        fixture.detectChanges();
+        const errorText = nativeComponent.querySelector('p').textContent;
+        expect(errorText).toEqual(vacancyErrorMock);
     });
 });

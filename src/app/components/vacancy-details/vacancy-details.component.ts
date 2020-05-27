@@ -14,7 +14,6 @@ export class VacancyDetailsComponent implements OnInit {
     errorMSG: string;
     vacancy: Vacancy;
     id: string;
-    err: Boolean;
 
     constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient) {
     }
@@ -25,7 +24,6 @@ export class VacancyDetailsComponent implements OnInit {
             this.vacancy = data;
         }, err => {
             this.errorMSG = err.error;
-            this.err = true;
         });
     }
 
