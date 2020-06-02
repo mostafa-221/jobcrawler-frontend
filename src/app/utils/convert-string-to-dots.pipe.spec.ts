@@ -11,12 +11,12 @@ describe('ConvertStringToDotsPipe', () => {
     });
 
     it('should return falsy inputs', () => {
-        expect(pipe.transform(undefined, 25)).toBeUndefined();
-        expect(pipe.transform(null, 25)).toBeNull();
-        expect(pipe.transform(NaN, 25)).toBeNaN();
-        expect(pipe.transform(0, 25)).toEqual(0);
-        expect(pipe.transform(false, 25)).toEqual(false);
-        expect(pipe.transform('', 25)).toEqual('');
+        expect(pipe.transform(undefined, -1)).toBeUndefined();
+        expect(pipe.transform(null, -1)).toBeNull();
+        expect(pipe.transform(NaN, -1)).toBeNaN();
+        expect(pipe.transform(0, -1)).toEqual(0);
+        expect(pipe.transform(false, -1)).toEqual(false);
+        expect(pipe.transform('', -1)).toEqual('');
     });
 
     it('should replace anything after the given amount of characters to: "..."', () => {
