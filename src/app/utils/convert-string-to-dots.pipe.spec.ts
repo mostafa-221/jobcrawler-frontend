@@ -23,7 +23,8 @@ describe('ConvertStringToDotsPipe', () => {
         expect(pipe.transform('123456789', 8)).toEqual('12345678...');
     });
 
-    it('should not replace anything when given amount of character is more than input', () => {
+    it('should not replace anything when given amount of character is equal or more than input', () => {
         expect(pipe.transform('12345678', 8)).toEqual('12345678');
+        expect(pipe.transform('12345678', 10)).toEqual('12345678');
     });
 });
