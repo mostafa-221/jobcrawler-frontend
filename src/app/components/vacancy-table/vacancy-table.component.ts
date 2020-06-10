@@ -22,7 +22,7 @@ export class VacancyTableComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(): void {
-    this.showClass = this.isShow ? 'table-container' : 'table-container-with-filter';
+    this.showClass = this.isShow ? 'table-container' : 'table-container-no-filter';
   }
 
   ngOnInit(): void {
