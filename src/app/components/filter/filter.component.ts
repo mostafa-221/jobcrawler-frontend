@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { FilterQuery } from 'src/app/models/filterQuery.model';
 
 @Component({
@@ -11,6 +11,7 @@ export class FilterComponent implements OnInit {
 
   isShow = false;
   searchForm: FormGroup;
+  skills = ['Java', 'Spring', 'Angular', 'HTML', 'Postgres', 'Mockito', 'JUnit'];
 
   constructor(private form: FormBuilder) { }
 
@@ -24,6 +25,13 @@ export class FilterComponent implements OnInit {
 
   public searchVacancies() {
     const filterQuery: FilterQuery = this.searchForm.value as FilterQuery;
+    filterQuery.skills = filterQuery.skills.filter(a => a.selected == true).map(a => {
+      return a.name;
+    });
+
+    if(!filterQuery.fromDate) filterQuery.fromDate = '';
+
+    if(!filterQuery.toDate) filterQuery.toDate = '';
 
     console.log(filterQuery);
 
@@ -35,8 +43,22 @@ export class FilterComponent implements OnInit {
 
   private constructSearchForm(): FormGroup {
 
+    const buildSkills = () => {
+      const arr = this.skills.map(skill => {
+        return this.form.group({
+          name: skill,
+          selected: false
+        });
+      });
+      return new FormArray(arr);
+    }
+
     return this.form.group({
-      city: ''
+      city: '',
+      skills: buildSkills(),
+      distance: '',
+      fromDate: '',
+      toDate: ''
     });
   }
 

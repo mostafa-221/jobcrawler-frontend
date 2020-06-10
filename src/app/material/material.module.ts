@@ -13,6 +13,9 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatMomentDateModule} from "@angular/material-moment-adapter";
+import {MAT_DATE_LOCALE} from '@angular/material/core';
 
 @NgModule({
     imports: [
@@ -28,7 +31,9 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
         MatProgressBarModule,
         MatFormFieldModule,
         MatExpansionModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        MatDatepickerModule,
+        MatMomentDateModule
     ],
     exports: [
         MatInputModule,
@@ -43,9 +48,13 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
         MatProgressBarModule,
         MatFormFieldModule,
         MatExpansionModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        MatDatepickerModule,
+        MatMomentDateModule
     ],
-    providers: [],
+    providers: [
+        {provide: MAT_DATE_LOCALE, useValue: 'nl-NL'}
+    ],
     schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 
