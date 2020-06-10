@@ -1,23 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { trigger, transition, style, animate } from '@angular/animations';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { SearchQuery } from 'src/app/models/searchQuery.model';
+import { FilterQuery } from 'src/app/models/filterQuery.model';
 
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
-  styleUrls: ['./filter.component.scss'],
-  animations: [
-    trigger('panelInOut', [
-        transition('void => *', [
-            style({opacity : 1}),
-            animate(200)
-        ]),
-        transition('* => void', [
-            animate(200, style({opacity: 0}))
-        ])
-    ])
-]
+  styleUrls: ['./filter.component.scss']
 })
 export class FilterComponent implements OnInit {
 
@@ -35,9 +23,9 @@ export class FilterComponent implements OnInit {
   }
 
   public searchVacancies() {
-    const searchQuery: SearchQuery = this.searchForm.value as SearchQuery;
+    const filterQuery: FilterQuery = this.searchForm.value as FilterQuery;
 
-    console.log(searchQuery);
+    console.log(filterQuery);
 
   }
 
