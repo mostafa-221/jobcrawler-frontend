@@ -1,10 +1,10 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {FormComponent} from './components/form/form.component';
 import {VacancyDetailsComponent} from './components/vacancy-details/vacancy-details.component';
+import { FilterComponent } from './components/filter/filter.component';
 
 const routes: Routes = [
-    {path: '', component: FormComponent},
+    {path: '', component: FilterComponent},
     {path: 'id/:id', component: VacancyDetailsComponent}
 ];
 

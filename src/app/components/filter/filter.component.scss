@@ -1,0 +1,38 @@
+@import "../../../variables.scss";
+
+.divider {
+    margin-top: -10px;
+}
+
+h2 {
+    color: #666;
+}
+
+.fullHeight {
+   height: calc(100vh - 150px);
+   width: 80vw;
+}
+
+hr {
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.vertical-spacer {
+    margin-top: 10px;
+}
+
+.main-div {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (max-width: $device-desktop) {
+    .filterFooter {
+        position: fixed;
+        bottom: 0;
+    }
+}

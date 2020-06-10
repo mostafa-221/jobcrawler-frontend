@@ -1,0 +1,11 @@
+@import "../../../variables.scss";
+
+@media (max-width: $device-desktop) {
+    .desktopView {
+        visibility: hidden;
+    }
+}
+
+.divider {
+    margin-top: -10px;
+}
