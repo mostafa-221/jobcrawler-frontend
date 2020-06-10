@@ -1,11 +1,32 @@
 @import "../../../variables.scss";
 
-@media (max-width: $device-desktop) {
+@media screen and (max-width: $device-desktop) {
     .desktopView {
         visibility: hidden;
+        display: none;
     }
 }
 
 .divider {
     margin-top: -10px;
+}
+
+.table-container-with-filter,
+.table-container {
+    height: calc(100vh - 250px);
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+@media screen and (max-width: $device-desktop) {
+    .table-container {
+        height: calc(100vh - 250px);
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+    .table-container-with-filter {
+        height: calc(100vh - 650px);
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
 }

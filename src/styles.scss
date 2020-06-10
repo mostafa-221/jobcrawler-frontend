@@ -12,6 +12,7 @@
 @import "~bootstrap/scss/reboot";
 // Import Bootstrap Grid
 @import "~bootstrap/scss/grid";
+@import "~bootstrap/scss/utilities";
 
 
 
@@ -22,7 +23,7 @@ body {
 }
 
 a { 
-    color: white; 
+    color: black; 
 }
 
 .card { 

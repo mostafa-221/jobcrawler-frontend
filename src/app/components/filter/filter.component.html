@@ -3,7 +3,17 @@
         <div class="row">
             <div class="col-sm-12 col-lg-3" *ngIf="!isShow">
                 <form [formGroup]="searchForm">
-                    <h1><span class="material-icons">filter_list</span> Filters</h1>
+                    <div class="page-header">
+                        <div class="float-left">
+                            <h1><span class="material-icons">filter_list</span> Filters</h1>
+                            </div>
+                            <div class="float-right desktopView">
+                                <a href="#" (click)="toggleDisplay()">
+                                    <span href="#" class="material-icons">chevron_left</span>
+                                </a>
+                            </div>
+                            <div class="clearfix"></div>
+                    </div>
                     <mat-divider class="divider"></mat-divider>
                     <button mat-raised-button (click)="resetForm()">Herstel&nbsp;
                         <mat-icon>autorenew</mat-icon>
