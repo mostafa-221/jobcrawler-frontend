@@ -1,20 +1,35 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Filtering3Component } from './filter.component';
+import { FilterComponent } from './filter.component';
+import { FilterService } from 'src/app/services/filter.service';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
 
-describe('Filtering3Component', () => {
-  let component: Filtering3Component;
-  let fixture: ComponentFixture<Filtering3Component>;
+describe('FilterComponent', () => {
+
+  let HttpTestingController: HttpTestingController;
+
+  let component: FilterComponent;
+  let fixture: ComponentFixture<FilterComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ Filtering3Component ]
+      imports: [
+        HttpClientTestingModule
+      ],
+      providers: [
+        FormBuilder,
+        FilterService
+      ],
+      declarations: [ FilterComponent ],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(Filtering3Component);
+    fixture = TestBed.createComponent(FilterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

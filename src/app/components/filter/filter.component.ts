@@ -3,8 +3,6 @@ import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { FilterQuery } from 'src/app/models/filterQuery.model';
 import { IVacancies } from 'src/app/models/ivacancies';
 import { FilterService } from 'src/app/services/filter.service';
-import { Observable } from 'rxjs';
-import { map, startWith, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-filter',
