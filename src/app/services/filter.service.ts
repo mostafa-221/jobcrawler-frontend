@@ -21,4 +21,8 @@ export class FilterService {
         };
         return this.httpClient.post(environment.api + '/searchrequest', nullBody);
     }
+
+    getByID(id: string): Observable<any> {
+        return this.httpClient.get(environment.api + '/getByID/' + id);
+    }
 }
