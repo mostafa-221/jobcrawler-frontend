@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 import { FilterQuery } from '../models/filterQuery.model';
 import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class FilterService {
@@ -12,7 +13,7 @@ export class FilterService {
     public searchByFilterQuery(query: FilterQuery) {
     }
 
-    public showAllVacancies() {
+    showAllVacancies(): Observable<any> {
         const nullBody = {
             location: null,
             distance: null,

@@ -1,4 +1,6 @@
 @import "../../../variables.scss";
+$sidewidth: 210px;
+$sidewidth-phone: 100px;
 
 .divider {
     margin-top: -10px;
@@ -48,12 +50,15 @@ hr {
     }
 }
 
-.float-right {
-    float: right;
-}
-
 .skillFilter {
     height: 150px;
     overflow-x: hidden;
     overflow-y: auto;
 }
+
+.search {
+    width: $sidewidth;
+    @media screen and (max-width : $device-phone) {
+      width: $sidewidth-phone;
+    }
+  }

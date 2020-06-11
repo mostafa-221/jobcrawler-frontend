@@ -16,6 +16,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatMomentDateModule} from "@angular/material-moment-adapter";
 import {MAT_DATE_LOCALE} from '@angular/material/core';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 @NgModule({
     imports: [
@@ -33,7 +34,8 @@ import {MAT_DATE_LOCALE} from '@angular/material/core';
         MatExpansionModule,
         MatCheckboxModule,
         MatDatepickerModule,
-        MatMomentDateModule
+        MatMomentDateModule,
+        MatAutocompleteModule
     ],
     exports: [
         MatInputModule,
@@ -50,7 +52,8 @@ import {MAT_DATE_LOCALE} from '@angular/material/core';
         MatExpansionModule,
         MatCheckboxModule,
         MatDatepickerModule,
-        MatMomentDateModule
+        MatMomentDateModule,
+        MatAutocompleteModule
     ],
     providers: [
         {provide: MAT_DATE_LOCALE, useValue: 'nl-NL'}

@@ -57,10 +57,10 @@
                 </form>
             </div>
             <div id ="childComponent" class="col-sm-12 col-lg-{{isShow ? 12 : 9}}">
-            <!-- <div id ="childComponent" class="col-sm-12 col-lg-9"> -->
                 <app-vacancy-table 
                 (filterButtonClicked)="toggleDisplay()"
-                [isShow]="isShow">
+                [isShow]="isShow"
+                [vacancies]="vacancies">
                </app-vacancy-table>      
             </div>
         </div>
