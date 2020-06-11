@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {Vacancy} from '../../models/vacancy';
@@ -27,7 +27,7 @@ export class VacancyDetailsComponent implements OnInit {
         this.filterService.getByID(this.id).subscribe((data: any) => {
             this.vacancy = data;
         }, err => {
-            this.errorMSG = err.error.message;
+            this.errorMSG = err.error;
         });
     }
 
