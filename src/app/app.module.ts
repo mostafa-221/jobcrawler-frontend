@@ -8,19 +8,19 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
-import { VacancyDetailsComponent } from './components/vacancy-details/vacancy-details.component';
 import { ConvertStringToDotsPipe } from './utils/convert-string-to-dots.pipe';
 import { MaterialModule } from './material/material.module';
 import { VacancyTableComponent } from './components/vacancy-table/vacancy-table.component';
 import { FilterComponent } from './components/filter/filter.component';
+import { VacancyDialogComponent } from './components/vacancy-dialog/vacancy-dialog.component';
 
 @NgModule({
     declarations: [
         AppComponent,
-        VacancyDetailsComponent,
         ConvertStringToDotsPipe,
         VacancyTableComponent,
-        FilterComponent
+        FilterComponent,
+        VacancyDialogComponent
     ],
     imports: [
         BrowserModule,
@@ -33,7 +33,8 @@ import { FilterComponent } from './components/filter/filter.component';
     ],
     providers: [],
     bootstrap: [AppComponent],
-    schemas: [NO_ERRORS_SCHEMA]
+    schemas: [NO_ERRORS_SCHEMA],
+    entryComponents: [VacancyDialogComponent]
 })
 export class AppModule {
 }
