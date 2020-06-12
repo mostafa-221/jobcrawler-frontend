@@ -23,7 +23,6 @@ describe('VacancyDialogComponent', () => {
       imports: [ HttpClientTestingModule,
         DialogTestModule],
       providers: [
-        // { provide: MatDialog, useValue: {}},
         { provide: MAT_DIALOG_DATA, useValue: ['1']},
         FilterService,
         { provide: OverlayContainer, useFactory: () => {
