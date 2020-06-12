@@ -1,7 +1,6 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {VacancyTableComponent} from './vacancy-table.component';
-import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatTableModule } from '@angular/material/table';
 import { ConvertStringToDotsPipe } from 'src/app/utils/convert-string-to-dots.pipe';
@@ -22,8 +21,7 @@ describe('VacancyTableComponent', () => {
       declarations: [ 
         VacancyTableComponent,
         ConvertStringToDotsPipe
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      ]
     })
     .compileComponents();
 
@@ -63,23 +61,20 @@ describe('VacancyTableComponent', () => {
           location: 'location',
           vacancyUrl: 'url'
       }
-  ];
+    ];
 
-  fixture.detectChanges();
+    fixture.detectChanges();
+      
+    // Expect stored vacancies to now match the mock data
+    expect(component.vacancies.length).toEqual(3);
+    expect(component.vacancies[0].title).toEqual(fixture.componentInstance.vacancies[0].title);
 
-  // fixture.whenStable().then(() => {
-    
-      // Expect stored vacancies to now match the mock data
-      expect(component.vacancies.length).toEqual(3);
-      expect(component.vacancies[0].title).toEqual(fixture.componentInstance.vacancies[0].title);
+    // Expect vacancies to be shown only after component has detected changes
+    const vacanciesTable = nativeComponent.querySelector('table');
 
-      // Expect vacancies to be shown only after component has detected changes
-      const vacanciesTable = nativeComponent.querySelector('table');
-
-      const vacancyTitles = vacanciesTable.children[1].children;
-      expect(vacanciesTable).toBeTruthy();
-      expect(vacancyTitles.length).toEqual(fixture.componentInstance.vacancies.length);
-      expect(vacancyTitles[0].firstChild.textContent.trim()).toEqual(fixture.componentInstance.vacancies[0].title);
-    // });
+    const vacancyTitles = vacanciesTable.children[1].children;
+    expect(vacanciesTable).toBeTruthy();
+    expect(vacancyTitles.length).toEqual(fixture.componentInstance.vacancies.length);
+    expect(vacancyTitles[0].firstChild.textContent.trim()).toEqual(fixture.componentInstance.vacancies[0].title);
   }));
 });
