@@ -5,6 +5,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatTableModule } from '@angular/material/table';
 import { ConvertStringToDotsPipe } from 'src/app/utils/convert-string-to-dots.pipe';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 describe('VacancyTableComponent', () => {
   let component: VacancyTableComponent;
@@ -21,6 +22,10 @@ describe('VacancyTableComponent', () => {
       declarations: [ 
         VacancyTableComponent,
         ConvertStringToDotsPipe
+      ],
+      providers: [
+        { provide: MatDialog, useValue: {}},
+        { provide: MAT_DIALOG_DATA, useValue: []}
       ]
     })
     .compileComponents();

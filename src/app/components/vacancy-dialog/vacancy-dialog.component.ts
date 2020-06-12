@@ -19,7 +19,6 @@ export class VacancyDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.getVacancyDetails(this.vacancyID);
-    console.log(this.vacancyID);
   }
 
   getVacancyDetails(vacancyID: string): void {

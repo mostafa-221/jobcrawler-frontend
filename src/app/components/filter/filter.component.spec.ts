@@ -6,6 +6,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
 import { VacancyTableComponent } from '../vacancy-table/vacancy-table.component';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 describe('FilterComponent', () => {
 
@@ -21,10 +22,14 @@ describe('FilterComponent', () => {
       ],
       providers: [
         FormBuilder,
-        FilterService
+        FilterService,
+        { provide: MatDialog, useValue: {}},
+        { provide: MAT_DIALOG_DATA, useValue: []}
       ],
-      declarations: [ FilterComponent,
-      VacancyTableComponent ],
+      declarations: [
+        FilterComponent,
+        VacancyTableComponent
+      ],
       schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
