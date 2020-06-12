@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {Vacancy} from '../../models/vacancy';
-import { FilterService } from 'src/app/services/filter.service';
+import {FilterService} from 'src/app/services/filter.service';
 
 @Component({
     selector: 'app-vacancy-details',
@@ -17,9 +17,9 @@ export class VacancyDetailsComponent implements OnInit {
     vacancy: Vacancy;
     id: string;
 
-    constructor(private route: ActivatedRoute, 
-        private router: Router, 
-        private filterService: FilterService) {
+    constructor(private route: ActivatedRoute,
+                private router: Router,
+                private filterService: FilterService) {
     }
 
     ngOnInit(): void {

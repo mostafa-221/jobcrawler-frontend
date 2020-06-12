@@ -1,9 +1,10 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {RouterTestingModule} from '@angular/router/testing'
+import {RouterTestingModule} from '@angular/router/testing';
 
 import {VacancyDetailsComponent} from './vacancy-details.component';
 import {ActivatedRoute} from '@angular/router';
+import { FilterService } from 'src/app/services/filter.service';
 
 describe('VacancyDetailsComponent', () => {
     const routeMock = {snapshot: {params: {id: '1'}}};
@@ -17,7 +18,8 @@ describe('VacancyDetailsComponent', () => {
             imports: [HttpClientTestingModule, RouterTestingModule],
             declarations: [VacancyDetailsComponent],
             providers: [
-                { provide: ActivatedRoute, useValue: routeMock }
+                {provide: ActivatedRoute, useValue: routeMock},
+                FilterService
             ]
         });
 
@@ -38,7 +40,7 @@ describe('VacancyDetailsComponent', () => {
         const vacancyMock = {
             id: id,
             title: 'Vacancy title'
-        }
+        };
 
         // Expect search request to not be triggered yet
         httpTestingController.expectNone(vacancyUrl);
@@ -73,8 +75,8 @@ describe('VacancyDetailsComponent', () => {
 
     it('should display error', () => {
         const vacancyUrl = 'http://localhost:8080/getByID/' + routeMock.snapshot.params.id;
-        const vacancyErrorMock = "Invalid ID";
-        const vacancyErrorStatus = { status: 404, statusText: 'Not Found' };
+        const vacancyErrorMock = 'Invalid ID';
+        const vacancyErrorStatus = {status: 404, statusText: 'Not Found'};
 
         // Initialize component
         expect(component.errorMSG).toBeUndefined();
