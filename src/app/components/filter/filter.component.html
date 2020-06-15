@@ -64,7 +64,7 @@
                     </mat-form-field>
                 </form>
             </div>
-            <div id ="childComponent" class="col-sm-12 col-lg-{{isShow ? 12 : 9}}">
+            <div id ="childComponent" class="{{isShow ? 'col-sm-12' : 'hideDiv'}} col-lg-{{isShow ? 12 : 9}}">
                 <app-vacancy-table 
                 (filterButtonClicked)="toggleDisplay()"
                 [isShow]="isShow"
@@ -75,4 +75,4 @@
     </mat-card>
 </div>
 
-<div class="filterFooter"><button mat-raised-button (click)="toggleDisplay()" [style.width.vw]="100">{{isShow ? 'Show' : 'Hide'}} filters</button></div>
+<div class="filterFooter"><button mat-raised-button (click)="toggleDisplay()" [style.width.vw]="100">{{isShow ? 'Show filters' : 'Show vacancies'}}</button></div>

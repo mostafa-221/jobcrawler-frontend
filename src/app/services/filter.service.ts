@@ -25,4 +25,8 @@ export class FilterService {
     getByID(id: string): Observable<any> {
         return this.httpClient.get(environment.api + '/getByID/' + id);
     }
+
+    getCities(): Observable<any> {
+        return this.httpClient.get(environment.api + '/cities');
+    }
 }

@@ -61,4 +61,11 @@ hr {
     @media screen and (max-width : $device-phone) {
       width: $sidewidth-phone;
     }
-  }
+}
+
+.hideDiv {
+    opacity: 1;
+    @media screen and (max-width : $device-phone) {
+      opacity: 0;
+    }
+}
