@@ -3,8 +3,9 @@ import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { FilterQuery } from 'src/app/models/filterQuery.model';
 import { IVacancies } from 'src/app/models/ivacancies';
 import { FilterService } from 'src/app/services/filter.service';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { LoaderService } from 'src/app/services/loader.service';
 
 @Component({
   selector: 'app-filter',
@@ -20,9 +21,14 @@ export class FilterComponent implements OnInit {
   vacancies: IVacancies[] = [];
   cities: string[] = ['Amsterdam', 'Den Haag', 'Rotterdam', 'Utrecht'];
   filteredCities: Observable<String[]>;
+  isLoading: Subject<boolean> = this.loaderService.isLoading;
+  color = 'primary';
+  mode = 'indeterminate';
+  value = 50;
 
   constructor(private form: FormBuilder,
-    private filterService: FilterService) { }
+    private filterService: FilterService,
+    private loaderService: LoaderService) { }
 
   ngOnInit(): void {
     this.searchForm = this.constructSearchForm();
@@ -70,10 +76,13 @@ export class FilterComponent implements OnInit {
 
     console.log(filterQuery);
 
+    this.getAllVacancies();
+
   }
 
   resetForm(): void {
     this.searchForm.reset(this.constructSearchForm().value);
+    this.vacancies = [];
   }
 
   private constructSearchForm(): FormGroup {

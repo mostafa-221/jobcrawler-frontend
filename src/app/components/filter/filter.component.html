@@ -64,7 +64,11 @@
                     </mat-form-field>
                 </form>
             </div>
-            <div id ="childComponent" class="{{isShow ? 'col-sm-12' : 'hideDiv'}} col-lg-{{isShow ? 12 : 9}}">
+            <div *ngIf="isLoading | async" class="overlay">
+                <mat-progress-spinner class="spinner" [color]="color" [mode]="mode" [value]="value">
+                </mat-progress-spinner>
+            </div>              
+            <div id="childComponent" class="{{isShow ? 'col-sm-12' : 'hideDiv'}} col-lg-{{isShow ? 12 : 9}}">
                 <app-vacancy-table 
                 (filterButtonClicked)="toggleDisplay()"
                 [isShow]="isShow"
