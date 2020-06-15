@@ -8,6 +8,7 @@ import { HttpClientTestingModule, HttpTestingController } from "@angular/common/
 import { VacancyTableComponent } from '../vacancy-table/vacancy-table.component';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { LoaderService } from 'src/app/services/loader.service';
 
 describe('FilterComponent', () => {
 
@@ -25,6 +26,7 @@ describe('FilterComponent', () => {
       providers: [
         FormBuilder,
         FilterService,
+        LoaderService,
         { provide: MatDialog, useValue: {}},
         { provide: MAT_DIALOG_DATA, useValue: []}
       ],
