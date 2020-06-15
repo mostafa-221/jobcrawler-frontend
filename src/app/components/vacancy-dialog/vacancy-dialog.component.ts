@@ -25,7 +25,7 @@ export class VacancyDialogComponent implements OnInit {
     this.filterService.getByID(this.vacancyID).subscribe((data: any) => {
       this.vacancy = data;
   }, err => {
-      this.errorMSG = err.error;
+      this.errorMSG = err.error.message;
   });
   }
 
