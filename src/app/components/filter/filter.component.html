@@ -15,7 +15,7 @@
                         <div class="clearfix"></div>
                     </div>
                     <mat-divider class="divider"></mat-divider>
-                    <button mat-raised-button (click)="resetForm()">Herstel&nbsp;
+                    <button mat-raised-button type="button" (click)="resetForm()">Herstel&nbsp;
                         <mat-icon>autorenew</mat-icon>
                     </button>
                     <span class="ml-2"></span>
@@ -28,7 +28,6 @@
                         <input type="text"
                                placeholder="City"
                                formControlName="city"
-                               (keyup.enter)="searchVacancies()"
                                matInput
                                [matAutocomplete]="auto">
                         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
@@ -39,7 +38,7 @@
                     </mat-form-field>
                     <mat-form-field class="search">
                         <mat-label>Distance</mat-label>
-                        <input matInput type="search" formControlName="distance" (keyup.enter)="searchVacancies()"
+                        <input matInput type="search" formControlName="distance"
                                placeholder="Distance">
                     </mat-form-field>
                     <h2>By skill:</h2>
