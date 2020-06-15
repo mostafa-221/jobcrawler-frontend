@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, AfterContentInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FilterService } from 'src/app/services/filter.service';
 import { Vacancy } from 'src/app/models/vacancy';
@@ -9,7 +9,7 @@ import { Vacancy } from 'src/app/models/vacancy';
   styleUrls: ['./vacancy-dialog.component.css'],
   providers: [FilterService]
 })
-export class VacancyDialogComponent implements OnInit {
+export class VacancyDialogComponent implements AfterContentInit {
 
   errorMSG: string;
   vacancy: Vacancy;
@@ -17,8 +17,9 @@ export class VacancyDialogComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) public vacancyID: string,
               private filterService: FilterService) { }
 
-  ngOnInit(): void {
-    this.getVacancyDetails(this.vacancyID);
+
+  ngAfterContentInit(): void {
+    setTimeout(() => this.getVacancyDetails(this.vacancyID), 0);
   }
 
   getVacancyDetails(vacancyID: string): void {
