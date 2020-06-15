@@ -7,6 +7,7 @@ import { FormBuilder } from '@angular/forms';
 import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
 import { VacancyTableComponent } from '../vacancy-table/vacancy-table.component';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 describe('FilterComponent', () => {
 
@@ -18,7 +19,8 @@ describe('FilterComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        MatAutocompleteModule
       ],
       providers: [
         FormBuilder,
