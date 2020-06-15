@@ -19,9 +19,12 @@
         "@angular/flex-layout": "^9.0.0-beta.29",
         "@angular/forms": "~9.0.x",
         "@angular/material": "^9.x.x",
+        "@angular/material-moment-adapter": "^9.2.4",
         "@angular/platform-browser": "~9.0.x",
         "@angular/platform-browser-dynamic": "~9.0.x",
         "@angular/router": "~9.0.x",
+        "bootstrap": "^4.5.0",
+        "moment": "^2.26.0",
         "rxjs": "~6.5.x",
         "tslib": "^1.x.x",
         "zone.js": "~0.10.x"

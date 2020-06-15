@@ -1,0 +1,64 @@
+@import "../../../variables.scss";
+$sidewidth: 210px;
+$sidewidth-phone: 100px;
+
+.divider {
+    margin-top: -10px;
+}
+
+h2 {
+    color: #666;
+}
+
+.fullHeight {
+   height: calc(100vh - 150px);
+   width: 80vw;
+}
+
+hr {
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.vertical-spacer {
+    margin-top: 10px;
+}
+
+.main-div {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.filterFooter {
+    display: none;
+}
+
+@media screen and (max-width: $device-desktop) {
+    .filterFooter {
+        display: block;
+        position: fixed;
+        bottom: 0;
+    }
+}
+
+@media screen and (max-width: $device-desktop) {
+    .desktopView {
+        visibility: hidden;
+    }
+}
+
+.skillFilter {
+    height: 150px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.search {
+    width: $sidewidth;
+    @media screen and (max-width : $device-phone) {
+      width: $sidewidth-phone;
+    }
+  }
