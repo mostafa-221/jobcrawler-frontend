@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
 import { FilterQuery } from 'src/app/models/filterQuery.model';
 import { IVacancies } from 'src/app/models/ivacancies';
 import { FilterService } from 'src/app/services/filter.service';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-filter',
@@ -16,6 +18,8 @@ export class FilterComponent implements OnInit {
   searchForm: FormGroup;
   skills: string[] = ['Java', 'Spring', 'Angular', 'HTML', 'Postgres', 'Mockito', 'JUnit'];
   vacancies: IVacancies[] = [];
+  cities: string[] = ['Amsterdam', 'Den Haag', 'Rotterdam', 'Utrecht'];
+  filteredCities: Observable<String[]>;
 
   constructor(private form: FormBuilder,
     private filterService: FilterService) { }
@@ -23,6 +27,16 @@ export class FilterComponent implements OnInit {
   ngOnInit(): void {
     this.searchForm = this.constructSearchForm();
     this.getAllVacancies();
+
+    this.filteredCities = this.searchForm.get('city')!.valueChanges
+    .pipe(
+      startWith(''),
+      map(value => this._filterCity(value))
+    );
+  }
+
+  private _filterCity(search: string): string[] {
+      return this.cities.filter(value => value.toLowerCase().indexOf(search.toLowerCase()) === 0);
   }
 
   toggleDisplay(): void {
