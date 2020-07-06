@@ -1,0 +1,22 @@
+<div class="card my-5">
+    <div class="card-body">
+      <button type="button" (click)="relinkSkills()">relink</button>
+      <p></p>
+      <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">(delete)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let skill of skills">
+            <td>{{skill.name}}</td>
+            <td><button type="button" (click)="deleteRow(skill)">delete</button></td>
+          </tr>
+        </tbody>
+      </table>
+     
+    </div>
+  </div>
+  

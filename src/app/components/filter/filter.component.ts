@@ -6,6 +6,7 @@ import { FilterService } from 'src/app/services/filter.service';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { LoaderService } from 'src/app/services/loader.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-filter',
@@ -28,7 +29,9 @@ export class FilterComponent implements OnInit {
 
   constructor(private form: FormBuilder,
     private filterService: FilterService,
-    private loaderService: LoaderService) { }
+    private loaderService: LoaderService, 
+    private route: ActivatedRoute, 
+    private router: Router ) { }
 
   ngOnInit(): void {
     this.searchForm = this.constructSearchForm();
@@ -39,6 +42,12 @@ export class FilterComponent implements OnInit {
       startWith(''),
       map(value => this._filterCity(value))
     );
+  }
+
+
+  navigateBeheerSkills():void {
+    console.log("navigate to Beheer Skills!");
+    this.router.navigate(['getskills']);
   }
 
   private _filterCity(search: string): string[] {
