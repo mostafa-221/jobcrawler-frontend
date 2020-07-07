@@ -1,9 +1,8 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule, NO_ERRORS_SCHEMA} from '@angular/core';
+import {NgModule} from '@angular/core';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ReactiveFormsModule} from '@angular/forms';
-import {FlexLayoutModule} from '@angular/flex-layout';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -30,7 +29,6 @@ import { LoaderInterceptor } from './interceptors/loader.interceptor';
         HttpClientModule,
         ReactiveFormsModule,
         AppRoutingModule,
-        FlexLayoutModule,
         MaterialModule
     ],
     providers: [
@@ -38,7 +36,6 @@ import { LoaderInterceptor } from './interceptors/loader.interceptor';
         { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }
     ],
     bootstrap: [AppComponent],
-    schemas: [NO_ERRORS_SCHEMA],
     entryComponents: [VacancyDialogComponent]
 })
 export class AppModule {

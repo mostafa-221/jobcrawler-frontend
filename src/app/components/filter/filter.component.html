@@ -64,7 +64,7 @@
                 </form>
             </div>
             <div *ngIf="isLoading | async" class="overlay">
-                <mat-progress-spinner class="spinner" [color]="color" [mode]="mode" [value]="value">
+                <mat-progress-spinner class="spinner" color="primary" mode="indeterminate" value="50">
                 </mat-progress-spinner>
             </div>              
             <div id="childComponent" class="{{isShow ? 'col-sm-12' : 'hideDiv'}} col-lg-{{isShow ? 12 : 9}}">
