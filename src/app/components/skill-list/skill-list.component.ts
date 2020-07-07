@@ -22,6 +22,13 @@ export class SkillListComponent implements OnInit {
     this.skillService.relinkSkills();
   }
 
+  navigateVacancies() {
+    this.router.navigate(['']);
+  }
+
+  addSkill() {
+    this.router.navigate(['addskill']);
+  }
 
   constructor(
     private route: ActivatedRoute, 

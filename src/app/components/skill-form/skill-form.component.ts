@@ -20,6 +20,11 @@ export class SkillFormComponent {
     this.skill = new Skill();
   }
  
+  navigateSkillList() {
+    console.log("back to skill list");
+    this.router.navigate(['getskills']);
+  }
+
   onSubmit() {
     this.skillService.save(this.skill).subscribe(() => this.gotoSkillListAfterAddition());
   }
