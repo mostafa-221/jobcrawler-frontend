@@ -83,7 +83,7 @@ export class FilterComponent implements OnInit {
             broker: vacancy.broker,
             postingDate: vacancy.postingDate,
             location: vacancy.location,
-            url: vacancy.id,
+            id: vacancy.id,
             vacancyUrl: vacancy.vacancyURL
         });
       });
