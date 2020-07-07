@@ -10,6 +10,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatCardModule} from '@angular/material/card';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatCheckboxModule} from '@angular/material/checkbox';
@@ -17,6 +18,7 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatMomentDateModule} from "@angular/material-moment-adapter";
 import {MAT_DATE_LOCALE} from '@angular/material/core';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
     imports: [
@@ -30,12 +32,14 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
         MatSidenavModule,
         MatCardModule,
         MatProgressBarModule,
+        MatProgressSpinnerModule,
         MatFormFieldModule,
         MatExpansionModule,
         MatCheckboxModule,
         MatDatepickerModule,
         MatMomentDateModule,
-        MatAutocompleteModule
+        MatAutocompleteModule,
+        MatTooltipModule
     ],
     exports: [
         MatInputModule,
@@ -48,12 +52,14 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
         MatSidenavModule,
         MatCardModule,
         MatProgressBarModule,
+        MatProgressSpinnerModule,
         MatFormFieldModule,
         MatExpansionModule,
         MatCheckboxModule,
         MatDatepickerModule,
         MatMomentDateModule,
-        MatAutocompleteModule
+        MatAutocompleteModule,
+        MatTooltipModule
     ],
     providers: [
         {provide: MAT_DATE_LOCALE, useValue: 'nl-NL'}

@@ -6,6 +6,9 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
 import { VacancyTableComponent } from '../vacancy-table/vacancy-table.component';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { LoaderService } from 'src/app/services/loader.service';
 
 describe('FilterComponent', () => {
 
@@ -17,14 +20,20 @@ describe('FilterComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        MatAutocompleteModule
       ],
       providers: [
         FormBuilder,
-        FilterService
+        FilterService,
+        LoaderService,
+        { provide: MatDialog, useValue: {}},
+        { provide: MAT_DIALOG_DATA, useValue: []}
       ],
-      declarations: [ FilterComponent,
-      VacancyTableComponent ],
+      declarations: [
+        FilterComponent,
+        VacancyTableComponent
+      ],
       schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();

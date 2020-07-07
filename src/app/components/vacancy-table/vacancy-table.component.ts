@@ -1,7 +1,9 @@
-import { Component, OnInit, Output, Input, OnChanges } from '@angular/core';
+import { Component, Output, Input, OnChanges } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 import { FilterService } from 'src/app/services/filter.service';
 import { IVacancies } from 'src/app/models/ivacancies';
+import { MatDialog } from '@angular/material/dialog';
+import { VacancyDialogComponent } from '../vacancy-dialog/vacancy-dialog.component';
 
 @Component({
   selector: 'app-vacancy-table',
@@ -9,7 +11,7 @@ import { IVacancies } from 'src/app/models/ivacancies';
   styleUrls: ['./vacancy-table.component.scss'],
   providers: [FilterService]
 })
-export class VacancyTableComponent implements OnInit, OnChanges {
+export class VacancyTableComponent implements OnChanges {
 
   @Input() isShow: boolean;
   @Input() vacancies: IVacancies[];
@@ -18,18 +20,35 @@ export class VacancyTableComponent implements OnInit, OnChanges {
   displayedColumns: string[] = ['title', 'broker', 'location', 'postingDate', 'openVacancyURL'];
   showClass: string;
 
-  constructor(private filterService: FilterService) {
-  }
 
+  /**
+   * Creates an instance of vacancy table component.
+   * @param dialog 
+   */
+  constructor(private dialog: MatDialog) {
+  }
+  
+  /**
+   * on changes
+   */
   ngOnChanges(): void {
     this.showClass = this.isShow ? 'table-container' : 'table-container-no-filter';
   }
 
-  ngOnInit(): void {
-  }
-
+  /**
+   * Function for resizing filter/table.
+   */
   resizeFilterClick(): void {
     this.filterButtonClicked.emit();
+  }
+
+
+  /**
+   * Opens dialog / modal
+   * @param vacancyID id that is passed to vacancy-dialog.component
+   */
+  openDialog(vacancyID: string): void {
+    this.dialog.open(VacancyDialogComponent, { data: vacancyID });
   }
 
 }

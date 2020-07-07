@@ -15,7 +15,8 @@
         <ng-container matColumnDef="title">
             <th mat-header-cell *matHeaderCellDef> Title</th>
             <td mat-cell *matCellDef="let element"><a
-                href="/id/{{element.url}}"> {{element.title | convertStringToDots: 25}} </a></td>
+                (click)="openDialog(element.id)" class="pointer"
+                matTooltip="{{element.title}}"> {{element.title | convertStringToDots: 25}} </a></td>
         </ng-container>
 
         <!-- Broker Column -->

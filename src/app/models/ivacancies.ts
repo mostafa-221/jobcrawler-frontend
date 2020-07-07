@@ -3,6 +3,6 @@ export interface IVacancies {
     broker: string;
     location: string;
     postingDate: string;
-    url: string;
+    id: string;
     vacancyUrl: string;
 }
