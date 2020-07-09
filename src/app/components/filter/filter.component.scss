@@ -34,10 +34,7 @@ hr {
 
 .filterFooter {
     display: none;
-}
-
-@media screen and (max-width: $device-desktop) {
-    .filterFooter {
+    @media screen and (max-width: $device-desktop) {
         display: block;
         position: fixed;
         bottom: 0;
@@ -63,6 +60,7 @@ hr {
     }
 }
 
+// Hide div element on mobile devices
 .hideDiv {
     opacity: 1;
     @media screen and (max-width : $device-phone) {

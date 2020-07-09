@@ -1,10 +1,9 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule}   from '@angular/forms';
-import {NgModule, NO_ERRORS_SCHEMA} from '@angular/core';
+import {NgModule} from '@angular/core';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ReactiveFormsModule} from '@angular/forms';
-import {FlexLayoutModule} from '@angular/flex-layout';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -37,9 +36,7 @@ import { SkillService } from './services/skill-service.service';
         HttpClientModule,
         ReactiveFormsModule,
         AppRoutingModule,
-        FlexLayoutModule,
-        MaterialModule,
-        FormsModule
+        MaterialModule
     ],
     providers: [
         LoaderService,
@@ -47,7 +44,6 @@ import { SkillService } from './services/skill-service.service';
         SkillService
     ],
     bootstrap: [AppComponent],
-    schemas: [NO_ERRORS_SCHEMA],
     entryComponents: [VacancyDialogComponent]
 })
 export class AppModule {
