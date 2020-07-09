@@ -6,6 +6,9 @@ import { FilterService } from 'src/app/services/filter.service';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { LoaderService } from 'src/app/services/loader.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SkillService } from 'src/app/services/skill-service.service';
+import { Skill } from 'src/app/models/skill';
 
 @Component({
   selector: 'app-filter',
@@ -17,8 +20,8 @@ export class FilterComponent implements OnInit {
 
   isShow: boolean = false;
   searchForm: FormGroup;
-  // TODO: skills and cities are currently hardcoded but need to be retrieved from the backend at some point
-  skills: string[] = ['Angular', 'HTML', 'Java', 'JUnit', 'Mockito', 'Postgres', 'Spring'];
+  skills: string[] = ['Java', 'Spring', 'Angular', 'HTML', 'Postgres', 'Mockito', 'JUnit'];
+  vacancies: IVacancies[] = [];
   cities: string[] = ['Amsterdam', 'Den Haag', 'Rotterdam', 'Utrecht'];
   vacancies: IVacancies[] = [];
   filteredCities: Observable<String[]>;
@@ -33,9 +36,39 @@ export class FilterComponent implements OnInit {
    */
   constructor(private form: FormBuilder,
     private filterService: FilterService,
-    private loaderService: LoaderService) { }
+    private loaderService: LoaderService,
+    private skillService: SkillService,
+    private route: ActivatedRoute,
+    private router: Router ) {
 
-  
+    }
+
+
+  private skillList: Skill[];
+  private name: string;
+
+
+  // does not work (yet) when called from the ngOnInit, probably timing error by creating the screen
+  // should fill the skill list at screen start time
+  private fillSkillList():void {
+      console.log("retrieving skills to fill list on screen");
+      this.skillService.findAll().subscribe(data => {
+        this.skillList = data;
+
+
+        for (let i = 0; i < this.skillList.length; i ++) {
+          this.name = this.skillList[i].name;
+          this.skills.push(this.name);
+          console.log("added skill:" + this.name);
+        }
+
+        console.log("skills retrieved");
+        this.searchForm = this.constructSearchForm();
+      });
+
+  }
+
+
   /**
    * Function gets executed upon initialization.
    * Constructs searchform.
@@ -43,6 +76,7 @@ export class FilterComponent implements OnInit {
    * Detect changes to 'city' field.
    */
   ngOnInit(): void {
+
     this.searchForm = this.constructSearchForm();
     this.getAllVacancies();
 
@@ -51,13 +85,17 @@ export class FilterComponent implements OnInit {
       startWith(''),
       map(value => this._filterCity(value))
     );
+
   }
+
+
+
 
 
   /**
    * Filters city
    * @param search entered string
-   * @returns matching cities to entered string 
+   * @returns matching cities to entered string
    */
   private _filterCity(search: string): string[] {
       return this.cities.filter(value => value.toLowerCase().indexOf(search.toLowerCase()) === 0);
@@ -92,7 +130,7 @@ export class FilterComponent implements OnInit {
 
 
   /**
-   * TODO: Connect this function to send request to backend.  
+   * TODO: Connect this function to send request to backend.
    * Converts form to json format. Currently logged to console and calls the getAllVacancies() function.
    */
   searchVacancies(): void {
@@ -123,7 +161,7 @@ export class FilterComponent implements OnInit {
 
   /**
    * Constructs search form
-   * @returns empty search form 
+   * @returns empty search form
    */
   private constructSearchForm(): FormGroup {
 

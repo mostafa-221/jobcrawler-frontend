@@ -1,4 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
+import {FormsModule}   from '@angular/forms';
 import {NgModule} from '@angular/core';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -14,6 +15,10 @@ import { FilterComponent } from './components/filter/filter.component';
 import { VacancyDialogComponent } from './components/vacancy-dialog/vacancy-dialog.component';
 import { LoaderService } from './services/loader.service';
 import { LoaderInterceptor } from './interceptors/loader.interceptor';
+import { SkillListComponent } from 'src/app/components/skill-list/skill-list.component';
+import { SkillFormComponent } from './components/skill-form/skill-form.component';
+import { SkillService } from './services/skill-service.service';
+
 
 @NgModule({
     declarations: [
@@ -21,7 +26,9 @@ import { LoaderInterceptor } from './interceptors/loader.interceptor';
         ConvertStringToDotsPipe,
         VacancyTableComponent,
         FilterComponent,
-        VacancyDialogComponent
+        VacancyDialogComponent,
+        SkillListComponent,
+        SkillFormComponent
     ],
     imports: [
         BrowserModule,
@@ -33,7 +40,8 @@ import { LoaderInterceptor } from './interceptors/loader.interceptor';
     ],
     providers: [
         LoaderService,
-        { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }
+        { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
+        SkillService
     ],
     bootstrap: [AppComponent],
     entryComponents: [VacancyDialogComponent]

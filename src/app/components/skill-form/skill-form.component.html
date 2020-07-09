@@ -1,0 +1,38 @@
+<div class="container main-div">
+  <mat-card class="card fullHeight">
+    <div class="card my-5">
+      <div class="card-body">
+        <button mat-raised-button type="button" (click)="navigateSkillList()"> back to Skill List&nbsp;
+        </button>
+        <p></p>
+ 
+        <mat-divider class="divider"></mat-divider>
+        <p></p>
+        <p></p>
+        <form (ngSubmit)="onSubmit()" #userForm="ngForm">
+          <div class="form-group" class="center">
+            
+            <p></p>
+            <input type="text" [(ngModel)]="skill.name" 
+              class="form-control"
+              id="name"
+              name="name"
+              placeholder="Enter skill name"
+              required #name="ngModel">
+              <p></p>
+          <div [hidden]="!name.pristine" class="alert alert-danger">Name is required</div>
+          <p></p>
+          
+          
+          </div>
+          <div class="centernoborder">
+            <button mat-raised-button type="button" type="Add skill"  
+            class="btn btn-info">Submit</button>
+          </div>
+          
+        </form>
+      </div>
+    </div>
+  </mat-card>
+</div>
+
