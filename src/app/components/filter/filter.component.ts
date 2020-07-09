@@ -7,6 +7,8 @@ import { Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { LoaderService } from 'src/app/services/loader.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SkillService } from 'src/app/services/skill-service.service';
+import { Skill } from 'src/app/models/skill';
 
 @Component({
   selector: 'app-filter',
@@ -18,7 +20,7 @@ export class FilterComponent implements OnInit {
 
   isShow: boolean = false;
   searchForm: FormGroup;
-  skills: string[] = ['Java', 'Spring', 'Angular', 'HTML', 'Postgres', 'Mockito', 'JUnit'];
+  skills: string[] = ['Java', 'Angular'];
   vacancies: IVacancies[] = [];
   cities: string[] = ['Amsterdam', 'Den Haag', 'Rotterdam', 'Utrecht'];
   filteredCities: Observable<String[]>;
@@ -30,10 +32,39 @@ export class FilterComponent implements OnInit {
   constructor(private form: FormBuilder,
     private filterService: FilterService,
     private loaderService: LoaderService, 
+    private skillService: SkillService,
     private route: ActivatedRoute, 
-    private router: Router ) { }
+    private router: Router ) { 
+      
+    }
+
+
+  private skillList: Skill[];
+  private name: string;
+
+
+  // does not work (yet) when called from the ngOnInit, probably timing error by creating the screen
+  // should fill the skill list at screen start time
+  private fillSkillList():void {
+      console.log("retrieving skills to fill list on screen");
+      this.skillService.findAll().subscribe(data => {
+        this.skillList = data;
+        
+    
+        for (let i = 0; i < this.skillList.length; i ++) {
+          this.name = this.skillList[i].name;
+          this.skills.push(this.name);
+          console.log("added skill:" + this.name);
+        }
+      
+        console.log("skills retrieved");
+        this.searchForm = this.constructSearchForm();
+      });
+      
+  }
 
   ngOnInit(): void {
+  
     this.searchForm = this.constructSearchForm();
     this.getAllVacancies();
 
@@ -42,13 +73,11 @@ export class FilterComponent implements OnInit {
       startWith(''),
       map(value => this._filterCity(value))
     );
+
   }
 
 
-  navigateBeheerSkills():void {
-    console.log("navigate to Beheer Skills!");
-    this.router.navigate(['getskills']);
-  }
+  
 
   private _filterCity(search: string): string[] {
       return this.cities.filter(value => value.toLowerCase().indexOf(search.toLowerCase()) === 0);

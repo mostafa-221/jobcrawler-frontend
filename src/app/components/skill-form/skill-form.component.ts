@@ -21,7 +21,6 @@ export class SkillFormComponent {
   }
  
   navigateSkillList() {
-    console.log("back to skill list");
     this.router.navigate(['getskills']);
   }
 

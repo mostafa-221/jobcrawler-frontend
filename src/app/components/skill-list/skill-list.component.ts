@@ -12,6 +12,12 @@ export class SkillListComponent implements OnInit {
  
   skills: Skill[];
  
+  constructor(
+    private route: ActivatedRoute, 
+    private router: Router, 
+    private skillService: SkillService) {
+  }
+  
   deleteRow(skill: Skill) {
     console.log("delete this row:" + skill.name);
     this.skillService.deleteSkill(skill).subscribe(() => this.gotoSkillListAfterDelete());
@@ -30,11 +36,7 @@ export class SkillListComponent implements OnInit {
     this.router.navigate(['addskill']);
   }
 
-  constructor(
-    private route: ActivatedRoute, 
-    private router: Router, 
-    private skillService: SkillService) {
-  }
+  
  
   ngOnInit() {
     this.skillService.findAll().subscribe(data => {
