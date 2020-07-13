@@ -52,11 +52,16 @@
                                placeholder="Distance">
                     </mat-form-field>
                     <h2>By skill:</h2>
-                    <div class="skillFilter" formArrayName="skills">
-                        <div *ngFor="let skill of skills; let i=index;" [formGroupName]="i">
-                            <mat-checkbox formControlName="selected">{{skill}}</mat-checkbox>
-                        </div>
-                    </div>
+                    <mat-form-field [style.width.%]="100">
+                        <mat-select [formControl]="skillMultiCtrl" placeholder="Skills" [multiple]="true" #multiSelect>
+                          <mat-option>
+                            <ngx-mat-select-search [formControl]="skillMultiFilterCtrl" placeholderLabel="Search" noEntriesFoundLabel="No match found"></ngx-mat-select-search>
+                          </mat-option>
+                          <mat-option *ngFor="let skill of filteredSkillsMulti | async" [value]="skill">
+                            {{skill}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
                     <div class="vertical-spacer"></div>
                     <h2>By date:</h2>
                     <mat-form-field [style.width.%]="100">

@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { FilterQuery } from 'src/app/models/filterQuery.model';
 import { IVacancies } from 'src/app/models/ivacancies';
 import { FilterService } from 'src/app/services/filter.service';
 import { Observable, Subject, ReplaySubject } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { map, startWith, takeUntil } from 'rxjs/operators';
 import { LoaderService } from 'src/app/services/loader.service';
 import { SkillService } from 'src/app/services/skill-service.service';
 import { Skill } from 'src/app/models/skill';
+import { MatSelect } from '@angular/material/select';
 
 @Component({
   selector: 'app-filter',
@@ -15,16 +16,22 @@ import { Skill } from 'src/app/models/skill';
   styleUrls: ['./filter.component.scss'],
   providers: [FilterService]
 })
-export class FilterComponent implements OnInit {
+export class FilterComponent implements OnInit, OnDestroy {
 
   isShow: boolean = false;
   searchForm: FormGroup;
-  skills: string[] = ['Java', 'Spring', 'Angular', 'HTML', 'Postgres', 'Mockito', 'JUnit'];
+  skills: string[];
   vacancies: IVacancies[] = [];
   cities: string[] = ['Amsterdam', 'Den Haag', 'Rotterdam', 'Utrecht'];
   showForm: boolean = false;
   filteredCities: Observable<String[]>;
   isLoading: Subject<boolean> = this.loaderService.isLoading;
+
+  public skillMultiCtrl: FormControl = new FormControl();
+  public skillMultiFilterCtrl: FormControl = new FormControl();
+  public filteredSkillsMulti: ReplaySubject<String[]> = new ReplaySubject<String[]>(1);
+  protected _onDestroy = new Subject<void>();
+  @ViewChild('multiSelect', {static: true}) multiSelect: MatSelect;
 
 
   /**
@@ -47,6 +54,15 @@ export class FilterComponent implements OnInit {
   ngOnInit(): void {
     this.loadForm();
     this.getAllVacancies();
+  }
+
+
+  /**
+   * Destroys ngx-mat-select-search upon leaving page
+   */
+  ngOnDestroy(): void {
+    this._onDestroy.next();
+    this._onDestroy.complete();
   }
 
   /**
@@ -82,9 +98,9 @@ export class FilterComponent implements OnInit {
    */
   public searchVacancies(): void {
     const filterQuery: FilterQuery = this.searchForm.value as FilterQuery;
-    filterQuery.skills = filterQuery.skills.filter(a => a.selected == true).map(a => {
-      return a.name;
-    });
+
+    if (this.skillMultiCtrl.value != null)
+      filterQuery.skills = this.skillMultiCtrl.value;
 
     if(!filterQuery.fromDate) filterQuery.fromDate = '';
 
@@ -101,6 +117,7 @@ export class FilterComponent implements OnInit {
    */
   public resetForm(): void {
     this.searchForm.reset(this.constructSearchForm());
+    this.skillMultiCtrl.reset();
     this.vacancies = [];
   }
 
@@ -115,6 +132,7 @@ export class FilterComponent implements OnInit {
         skillData.push(skill.name);
       });
       this.skills = skillData;
+      this.filteredSkillsMulti.next(this.skills.slice());
       this.constructSearchForm().then(() => {
         this.showForm = true;
       });
@@ -145,19 +163,10 @@ export class FilterComponent implements OnInit {
    */
   private constructSearchForm(): Promise<any> {
     return new Promise((resolve) => {
-      const buildSkills = () => {
-        const arr = this.skills.map(skill => {
-          return this.form.group({
-            name: skill,
-            selected: false
-          });
-        });
-        return new FormArray(arr);
-      }
-
       this.searchForm = this.form.group({
+        keyword: '',
         city: '',
-        skills: buildSkills(),
+        skills: '',
         distance: '',
         fromDate: '',
         toDate: ''
@@ -169,8 +178,37 @@ export class FilterComponent implements OnInit {
           map(value => this._filterCity(value || ''))
         );
 
+      this.skillMultiFilterCtrl.valueChanges
+      .pipe(takeUntil(this._onDestroy))
+      .subscribe(() => {
+        this.filterSkillsMulti();
+      });
+
       resolve();
     });
+  }
+
+
+  /**
+   * Easily search and select skills
+   * @returns Does not return anything, prevent method to continue 
+   */
+  private filterSkillsMulti(): any {
+    if (!this.skills) {
+      return;
+    }
+    
+    let search = this.skillMultiFilterCtrl.value;
+    if (!search) {
+      this.filteredSkillsMulti.next(this.skills.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+
+    this.filteredSkillsMulti.next(
+      this.skills.filter(skill => skill.toLowerCase().indexOf(search) === 0)
+    )
   }
 
 }
