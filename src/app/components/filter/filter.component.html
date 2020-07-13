@@ -2,7 +2,7 @@
     <mat-card class="card fullHeight">
         <div class="row">
             <div class="col-sm-12 col-lg-3" *ngIf="!isShow">
-                <form [formGroup]="searchForm">
+                <form *ngIf="showForm" [formGroup]="searchForm">
                     <div class="page-header">
                         <div class="float-left">
                             <h1><span class="material-icons">filter_list</span> Filters</h1>
@@ -15,6 +15,11 @@
                         <div class="clearfix"></div>
                     </div>
                     <mat-divider class="divider"></mat-divider>
+                    <!--<button mat-raised-button type="button" (click)="navigateBeheerSkills()">Beheer Skills&nbsp;
+                        <mat-icon>autorenew</mat-icon>
+                    </button> -->
+                    
+                    
                     <button mat-raised-button type="button" (click)="resetForm()">Herstel&nbsp;
                         <mat-icon>autorenew</mat-icon>
                     </button>
