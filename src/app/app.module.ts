@@ -36,7 +36,8 @@ import { SkillService } from './services/skill-service.service';
         HttpClientModule,
         ReactiveFormsModule,
         AppRoutingModule,
-        MaterialModule
+        MaterialModule,
+        FormsModule
     ],
     providers: [
         LoaderService,

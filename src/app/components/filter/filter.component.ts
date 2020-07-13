@@ -23,7 +23,7 @@ export class FilterComponent implements OnInit {
   skills: string[] = ['Java', 'Spring', 'Angular', 'HTML', 'Postgres', 'Mockito', 'JUnit'];
   vacancies: IVacancies[] = [];
   cities: string[] = ['Amsterdam', 'Den Haag', 'Rotterdam', 'Utrecht'];
-  vacancies: IVacancies[] = [];
+
   filteredCities: Observable<String[]>;
   isLoading: Subject<boolean> = this.loaderService.isLoading;
 
