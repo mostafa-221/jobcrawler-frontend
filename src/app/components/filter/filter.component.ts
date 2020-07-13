@@ -6,7 +6,6 @@ import { FilterService } from 'src/app/services/filter.service';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { LoaderService } from 'src/app/services/loader.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { SkillService } from 'src/app/services/skill-service.service';
 import { Skill } from 'src/app/models/skill';
 
@@ -23,7 +22,7 @@ export class FilterComponent implements OnInit {
   skills: string[] = ['Java', 'Spring', 'Angular', 'HTML', 'Postgres', 'Mockito', 'JUnit'];
   vacancies: IVacancies[] = [];
   cities: string[] = ['Amsterdam', 'Den Haag', 'Rotterdam', 'Utrecht'];
-
+  showForm: boolean = false;
   filteredCities: Observable<String[]>;
   isLoading: Subject<boolean> = this.loaderService.isLoading;
 
@@ -37,37 +36,7 @@ export class FilterComponent implements OnInit {
   constructor(private form: FormBuilder,
     private filterService: FilterService,
     private loaderService: LoaderService,
-    private skillService: SkillService,
-    private route: ActivatedRoute,
-    private router: Router ) {
-
-    }
-
-
-  private skillList: Skill[];
-  private name: string;
-
-
-  // does not work (yet) when called from the ngOnInit, probably timing error by creating the screen
-  // should fill the skill list at screen start time
-  private fillSkillList():void {
-      console.log("retrieving skills to fill list on screen");
-      this.skillService.findAll().subscribe(data => {
-        this.skillList = data;
-
-
-        for (let i = 0; i < this.skillList.length; i ++) {
-          this.name = this.skillList[i].name;
-          this.skills.push(this.name);
-          console.log("added skill:" + this.name);
-        }
-
-        console.log("skills retrieved");
-        this.searchForm = this.constructSearchForm();
-      });
-
-  }
-
+    private skillService: SkillService) {}
 
   /**
    * Function gets executed upon initialization.
@@ -76,36 +45,14 @@ export class FilterComponent implements OnInit {
    * Detect changes to 'city' field.
    */
   ngOnInit(): void {
-
-    this.searchForm = this.constructSearchForm();
+    this.loadForm();
     this.getAllVacancies();
-
-    this.filteredCities = this.searchForm.get('city')!.valueChanges
-    .pipe(
-      startWith(''),
-      map(value => this._filterCity(value))
-    );
-
   }
-
-
-
-
-
-  /**
-   * Filters city
-   * @param search entered string
-   * @returns matching cities to entered string
-   */
-  private _filterCity(search: string): string[] {
-      return this.cities.filter(value => value.toLowerCase().indexOf(search.toLowerCase()) === 0);
-  }
-
 
   /**
    * Toggles display / filter column
    */
-  toggleDisplay(): void {
+  public toggleDisplay(): void {
     this.isShow = !this.isShow;
   }
 
@@ -113,7 +60,7 @@ export class FilterComponent implements OnInit {
   /**
    * Gets all vacancies
    */
-  getAllVacancies(): void {
+  public getAllVacancies(): void {
     this.filterService.showAllVacancies().subscribe((data: any) => {
       data.vacancies.forEach(vacancy => {
         this.vacancies.push({
@@ -133,7 +80,7 @@ export class FilterComponent implements OnInit {
    * TODO: Connect this function to send request to backend.
    * Converts form to json format. Currently logged to console and calls the getAllVacancies() function.
    */
-  searchVacancies(): void {
+  public searchVacancies(): void {
     const filterQuery: FilterQuery = this.searchForm.value as FilterQuery;
     filterQuery.skills = filterQuery.skills.filter(a => a.selected == true).map(a => {
       return a.name;
@@ -149,38 +96,80 @@ export class FilterComponent implements OnInit {
 
   }
 
-
   /**
    * Resets form back to default values
    */
-  resetForm(): void {
-    this.searchForm.reset(this.constructSearchForm().value);
+  public resetForm(): void {
+    this.searchForm.reset(this.constructSearchForm());
     this.vacancies = [];
   }
 
 
   /**
+   * Loads form asynchronous
+   */
+  private loadForm(): void {
+    this.getSkills().then((data: Skill[]) => {
+      let skillData = [];
+      data.forEach((skill: Skill) => {
+        skillData.push(skill.name);
+      });
+      this.skills = skillData;
+      this.constructSearchForm().then(() => {
+        this.showForm = true;
+      });
+    });
+  }
+
+
+  /**
+   * Gets skills
+   * @returns skills as Promise
+   */
+  private getSkills(): Promise<any> {
+    return this.skillService.findAll().toPromise();
+  }
+
+  /**
+   * Filters city
+   * @param search entered string
+   * @returns matching cities to entered string
+   */
+  private _filterCity(search: string): string[] {
+    return this.cities.filter(value => value.toLowerCase().indexOf(search.toLowerCase()) === 0);
+  }
+
+  /**
    * Constructs search form
    * @returns empty search form
    */
-  private constructSearchForm(): FormGroup {
-
-    const buildSkills = () => {
-      const arr = this.skills.map(skill => {
-        return this.form.group({
-          name: skill,
-          selected: false
+  private constructSearchForm(): Promise<any> {
+    return new Promise((resolve) => {
+      const buildSkills = () => {
+        const arr = this.skills.map(skill => {
+          return this.form.group({
+            name: skill,
+            selected: false
+          });
         });
-      });
-      return new FormArray(arr);
-    }
+        return new FormArray(arr);
+      }
 
-    return this.form.group({
-      city: '',
-      skills: buildSkills(),
-      distance: '',
-      fromDate: '',
-      toDate: ''
+      this.searchForm = this.form.group({
+        city: '',
+        skills: buildSkills(),
+        distance: '',
+        fromDate: '',
+        toDate: ''
+      });
+
+      this.filteredCities = this.searchForm.get('city')!.valueChanges
+        .pipe(
+          startWith(''),
+          map(value => this._filterCity(value || ''))
+        );
+
+      resolve();
     });
   }
 
