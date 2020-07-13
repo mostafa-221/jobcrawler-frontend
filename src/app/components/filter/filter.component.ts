@@ -138,6 +138,7 @@ export class FilterComponent implements OnInit {
     }
 
     return this.form.group({
+      keyword: '',
       city: '',
       skills: buildSkills(),
       distance: '',

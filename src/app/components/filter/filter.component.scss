@@ -1,6 +1,8 @@
 @import "../../../variables.scss";
 $sidewidth: 210px;
+$sidewidth-percentage: 100%;
 $sidewidth-phone: 100px;
+$sidewidth-phone-percentage: 50%;
 
 .divider {
     margin-top: -10px;
@@ -54,9 +56,9 @@ hr {
 }
 
 .search {
-    width: $sidewidth;
+    width: $sidewidth-percentage;
     @media screen and (max-width : $device-phone) {
-      width: $sidewidth-phone;
+      width: $sidewidth-phone-percentage;
     }
 }
 
