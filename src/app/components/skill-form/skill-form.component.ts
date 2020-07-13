@@ -51,6 +51,7 @@ export class SkillFormComponent {
             err => {
                     if (err instanceof HttpErrorResponse) {
                         console.log('Error adding skill in backend:' + this.skill.name );
+                        this.errorMessage = 'Error adding skill in backend:' + err.message;
                         this.skillAcceptedBackend = false;
                     }
             }
