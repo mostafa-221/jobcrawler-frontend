@@ -19,6 +19,9 @@ import {MatMomentDateModule} from "@angular/material-moment-adapter";
 import {MAT_DATE_LOCALE} from '@angular/material/core';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatSelectModule} from '@angular/material/select';
+
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 @NgModule({
     imports: [
@@ -39,7 +42,9 @@ import {MatTooltipModule} from '@angular/material/tooltip';
         MatDatepickerModule,
         MatMomentDateModule,
         MatAutocompleteModule,
-        MatTooltipModule
+        MatTooltipModule,
+        MatSelectModule,
+        NgxMatSelectSearchModule
     ],
     exports: [
         MatInputModule,
@@ -59,7 +64,9 @@ import {MatTooltipModule} from '@angular/material/tooltip';
         MatDatepickerModule,
         MatMomentDateModule,
         MatAutocompleteModule,
-        MatTooltipModule
+        MatTooltipModule,
+        MatSelectModule,
+        NgxMatSelectSearchModule
     ],
     providers: [
         {provide: MAT_DATE_LOCALE, useValue: 'nl-NL'}

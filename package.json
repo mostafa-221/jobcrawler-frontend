@@ -24,6 +24,7 @@
         "@angular/router": "~9.0.x",
         "bootstrap": "^4.5.0",
         "moment": "^2.26.0",
+        "ngx-mat-select-search": "^3.0.1",
         "rxjs": "~6.5.x",
         "tslib": "^1.x.x",
         "zone.js": "~0.10.x"
