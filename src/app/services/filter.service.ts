@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { FilterQuery } from '../models/filterQuery.model';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
@@ -25,11 +25,12 @@ export class FilterService {
     }
 
     public getByQuery(filterQuery: FilterQuery, pageNum: number, pageSize: number): Observable<any> {
-        let getURL = environment.api + '/vacancies?skills=AWS' 
-                    + '&size=' + String(pageSize) 
-                    + '&page=' + String(pageNum);
+        let params = new HttpParams();
+        params = params.append('skills', 'AWS');
+        params = params.append('size', String(pageSize));
+        params = params.append('page', String(pageNum));
 
-        return this.httpClient.get<any>(getURL);
+        return this.httpClient.get<any>(environment.api + '/vacancies', {params: params});
     }
 
 
