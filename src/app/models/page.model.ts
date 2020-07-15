@@ -1,8 +1,8 @@
 import { Vacancy } from './vacancy';
 
 export class Page {
-    totalVacancies: number;
+    totalItems: number;
     totalPages: number;
     currentPage: number;
-    content: Vacancy[];
+    vacancies: Vacancy[];
 }

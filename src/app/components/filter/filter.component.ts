@@ -28,9 +28,9 @@ export class FilterComponent implements OnInit, OnDestroy {
   filteredCities: Observable<String[]>;
   isLoading: Subject<boolean> = this.loaderService.isLoading;
 
-  totalVacancies: number = 100;
+  totalVacancies: number;
   pageSize: number = 10;
-  currentPage: number = 1;
+  currentPage: number;
   pageEvent: PageEvent;
 
   public skillMultiCtrl: FormControl = new FormControl();
@@ -58,11 +58,11 @@ export class FilterComponent implements OnInit, OnDestroy {
    * Detect changes to 'city' field.
    */
   ngOnInit(): void {
-    this.loadForm();
+    // this.loadForm();
 
-    if (!this.vacancies) {
-      this.loadPage(this.pageEvent);
-    }
+    // if (!this.vacancies) {
+      this.searchVacancies(this.pageEvent);
+    // }
   }
 
 
@@ -72,12 +72,6 @@ export class FilterComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this._onDestroy.next();
     this._onDestroy.complete();
-  }
-
-  public loadPage(pageEvent?: PageEvent): void {
-    // this.onLoadMoreVacancies.emit(pageEvent);
-    console.log('test');
-    console.log(pageEvent);
   }
 
   /**
@@ -112,28 +106,29 @@ export class FilterComponent implements OnInit, OnDestroy {
    * Converts form to json format. Currently logged to console and calls the getAllVacancies() function.
    */
   public searchVacancies(pageEvent?: PageEvent): void {
-    const filterQuery: FilterQuery = this.searchForm.value as FilterQuery;
+    // const filterQuery: FilterQuery = this.searchForm.value as FilterQuery;
 
-    if (this.skillMultiCtrl.value != null)
-      filterQuery.skills = this.skillMultiCtrl.value;
+    // if (this.skillMultiCtrl.value != null)
+    //   filterQuery.skills = this.skillMultiCtrl.value;
 
-    if(!filterQuery.fromDate) filterQuery.fromDate = '';
+    // if(!filterQuery.fromDate) filterQuery.fromDate = '';
 
-    if(!filterQuery.toDate) filterQuery.toDate = '';
+    // if(!filterQuery.toDate) filterQuery.toDate = '';
 
-    const pageNum = pageEvent ? pageEvent.pageIndex + 1 : 1;
+    // console.log(filterQuery);
+
+    const pageNum = pageEvent ? pageEvent.pageIndex : 0;
     if (pageEvent) this.pageSize = pageEvent.pageSize;
 
-    console.log(filterQuery);
 
     // this.getAllVacancies();
 
     this.vacancies = [];
-
+    const filterQuery = null;
     this.filterService.getByQuery(filterQuery, pageNum, this.pageSize)
     .pipe(takeUntil(this._onDestroy))
     .subscribe(page => {
-      page.content.forEach(vacancy => {
+      page.vacancies.forEach(vacancy => {
         this.vacancies.push({
             title: vacancy.title,
             broker: vacancy.broker,
@@ -143,7 +138,7 @@ export class FilterComponent implements OnInit, OnDestroy {
             vacancyUrl: vacancy.vacancyURL
         });
       });
-      this.totalVacancies = page.totalVacancies;
+      this.totalVacancies = page.totalItems;
       this.currentPage = pageNum;
     });
 

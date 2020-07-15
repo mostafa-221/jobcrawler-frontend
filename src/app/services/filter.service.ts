@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { FilterQuery } from '../models/filterQuery.model';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
-import { Page } from '../models/page.model';
 
 @Injectable()
 export class FilterService {
@@ -25,8 +24,12 @@ export class FilterService {
     public searchByFilterQuery(query: FilterQuery) {
     }
 
-    public getByQuery(filterQuery: FilterQuery, pageNum: number, pageSize: number): Observable<Page> {
-        throw new Error("Method not implemented.");
+    public getByQuery(filterQuery: FilterQuery, pageNum: number, pageSize: number): Observable<any> {
+        let getURL = environment.api + '/vacancies?skills=AWS' 
+                    + '&size=' + String(pageSize) 
+                    + '&page=' + String(pageNum);
+
+        return this.httpClient.get<any>(getURL);
     }
 
 
