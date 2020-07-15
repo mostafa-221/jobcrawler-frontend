@@ -21,7 +21,6 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSelectModule} from '@angular/material/select';
 import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatPaginatorConfigService} from '../services/mat-paginator-config.service';
 
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
@@ -73,8 +72,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
         NgxMatSelectSearchModule
     ],
     providers: [
-        {provide: MAT_DATE_LOCALE, useValue: 'nl-NL'},
-        MatPaginatorConfigService
+        {provide: MAT_DATE_LOCALE, useValue: 'nl-NL'}
     ],
     schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
