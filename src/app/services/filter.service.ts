@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { FilterQuery } from '../models/filterQuery.model';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
+import { Page } from '../models/page.model';
 
 @Injectable()
 export class FilterService {
@@ -22,6 +23,10 @@ export class FilterService {
      * @param query query that needs to be send to backend
      */
     public searchByFilterQuery(query: FilterQuery) {
+    }
+
+    public getByQuery(filterQuery: FilterQuery, pageNum: number, pageSize: number): Observable<Page> {
+        throw new Error("Method not implemented.");
     }
 
 

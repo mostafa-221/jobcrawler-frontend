@@ -86,6 +86,12 @@
                 [isShow]="isShow"
                 [vacancies]="vacancies">
                </app-vacancy-table>      
+               <mat-paginator [length] = totalVacancies
+                    [pageSize] = pageSize
+                    [pageSizeOptions] = "[5, 10, 25, 50]"
+                    [showFirstLastButtons] = true
+                    (page)="searchVacancies($event)">
+               </mat-paginator>
             </div>
         </div>
     </mat-card>

@@ -38,7 +38,7 @@ export class VacancyTableComponent implements OnChanges {
   /**
    * Function for resizing filter/table.
    */
-  resizeFilterClick(): void {
+  public resizeFilterClick(): void {
     this.filterButtonClicked.emit();
   }
 
@@ -47,7 +47,7 @@ export class VacancyTableComponent implements OnChanges {
    * Opens dialog / modal
    * @param vacancyID id that is passed to vacancy-dialog.component
    */
-  openDialog(vacancyID: string): void {
+  public openDialog(vacancyID: string): void {
     this.dialog.open(VacancyDialogComponent, { data: vacancyID });
   }
 

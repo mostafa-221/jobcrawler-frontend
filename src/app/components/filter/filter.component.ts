@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, Input } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { FilterQuery } from 'src/app/models/filterQuery.model';
 import { IVacancies } from 'src/app/models/ivacancies';
@@ -9,6 +9,7 @@ import { LoaderService } from 'src/app/services/loader.service';
 import { SkillService } from 'src/app/services/skill-service.service';
 import { Skill } from 'src/app/models/skill';
 import { MatSelect } from '@angular/material/select';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-filter',
@@ -26,6 +27,11 @@ export class FilterComponent implements OnInit, OnDestroy {
   showForm: boolean = false;
   filteredCities: Observable<String[]>;
   isLoading: Subject<boolean> = this.loaderService.isLoading;
+
+  totalVacancies: number = 100;
+  pageSize: number = 10;
+  currentPage: number = 1;
+  pageEvent: PageEvent;
 
   public skillMultiCtrl: FormControl = new FormControl();
   public skillMultiFilterCtrl: FormControl = new FormControl();
@@ -53,7 +59,10 @@ export class FilterComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
     this.loadForm();
-    this.getAllVacancies();
+
+    if (!this.vacancies) {
+      this.loadPage(this.pageEvent);
+    }
   }
 
 
@@ -63,6 +72,12 @@ export class FilterComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this._onDestroy.next();
     this._onDestroy.complete();
+  }
+
+  public loadPage(pageEvent?: PageEvent): void {
+    // this.onLoadMoreVacancies.emit(pageEvent);
+    console.log('test');
+    console.log(pageEvent);
   }
 
   /**
@@ -96,7 +111,7 @@ export class FilterComponent implements OnInit, OnDestroy {
    * TODO: Connect this function to send request to backend.
    * Converts form to json format. Currently logged to console and calls the getAllVacancies() function.
    */
-  public searchVacancies(): void {
+  public searchVacancies(pageEvent?: PageEvent): void {
     const filterQuery: FilterQuery = this.searchForm.value as FilterQuery;
 
     if (this.skillMultiCtrl.value != null)
@@ -106,9 +121,31 @@ export class FilterComponent implements OnInit, OnDestroy {
 
     if(!filterQuery.toDate) filterQuery.toDate = '';
 
+    const pageNum = pageEvent ? pageEvent.pageIndex + 1 : 1;
+    if (pageEvent) this.pageSize = pageEvent.pageSize;
+
     console.log(filterQuery);
 
-    this.getAllVacancies();
+    // this.getAllVacancies();
+
+    this.vacancies = [];
+
+    this.filterService.getByQuery(filterQuery, pageNum, this.pageSize)
+    .pipe(takeUntil(this._onDestroy))
+    .subscribe(page => {
+      page.content.forEach(vacancy => {
+        this.vacancies.push({
+            title: vacancy.title,
+            broker: vacancy.broker,
+            postingDate: vacancy.postingDate,
+            location: vacancy.location,
+            id: vacancy.id,
+            vacancyUrl: vacancy.vacancyURL
+        });
+      });
+      this.totalVacancies = page.totalVacancies;
+      this.currentPage = pageNum;
+    });
 
   }
 

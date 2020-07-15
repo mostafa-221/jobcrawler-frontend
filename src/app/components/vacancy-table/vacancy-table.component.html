@@ -9,7 +9,7 @@
 <mat-divider class="divider"></mat-divider>
 <div class="{{showClass}}">
     <table *ngIf="vacancies.length > 0" mat-table [dataSource]="vacancies"
-           class="mat-elevation-z8">
+           [style.width.%]="100">
 
         <!-- Title Column -->
         <ng-container matColumnDef="title">
