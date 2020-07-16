@@ -1,6 +1,6 @@
 import { Vacancy } from './vacancy';
 
-export class Page {
+export class PageResult {
     totalItems: number;
     totalPages: number;
     currentPage: number;

@@ -10,6 +10,8 @@ import { SkillService } from 'src/app/services/skill-service.service';
 import { Skill } from 'src/app/models/skill';
 import { MatSelect } from '@angular/material/select';
 import { PageEvent } from '@angular/material/paginator';
+import { PageResult } from 'src/app/models/pageresult.model';
+import { Vacancy } from 'src/app/models/vacancy';
 
 @Component({
   selector: 'app-filter',
@@ -120,15 +122,12 @@ export class FilterComponent implements OnInit, OnDestroy {
     const pageNum = pageEvent ? pageEvent.pageIndex : 0;
     if (pageEvent) this.pageSize = pageEvent.pageSize;
 
-
-    // this.getAllVacancies();
-
     this.vacancies = [];
     const filterQuery = null;
     this.filterService.getByQuery(filterQuery, pageNum, this.pageSize)
     .pipe(takeUntil(this._onDestroy))
-    .subscribe(page => {
-      page.vacancies.forEach(vacancy => {
+    .subscribe((page: PageResult) => {
+      page.vacancies.forEach((vacancy: Vacancy) => {
         this.vacancies.push({
             title: vacancy.title,
             broker: vacancy.broker,

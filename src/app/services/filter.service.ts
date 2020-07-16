@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { FilterQuery } from '../models/filterQuery.model';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
+import { PageResult } from '../models/pageresult.model';
 
 @Injectable()
 export class FilterService {
@@ -24,13 +25,13 @@ export class FilterService {
     public searchByFilterQuery(query: FilterQuery) {
     }
 
-    public getByQuery(filterQuery: FilterQuery, pageNum: number, pageSize: number): Observable<any> {
+    public getByQuery(filterQuery: FilterQuery, pageNum: number, pageSize: number): Observable<PageResult> {
         let params = new HttpParams();
         params = params.append('skills', 'AWS');
         params = params.append('size', String(pageSize));
         params = params.append('page', String(pageNum));
 
-        return this.httpClient.get<any>(environment.api + '/vacancies', {params: params});
+        return this.httpClient.get<PageResult>(environment.api + '/vacancies', {params: params});
     }
 
 
