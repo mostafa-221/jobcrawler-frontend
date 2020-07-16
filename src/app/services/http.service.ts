@@ -4,6 +4,8 @@ import { FilterQuery } from '../models/filterQuery.model';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { PageResult } from '../models/pageresult.model';
+import { Skill } from '../models/skill';
+import { ErrorCode } from './errorCode';
 
 @Injectable()
 export class HttpService {
@@ -16,15 +18,13 @@ export class HttpService {
     constructor(private httpClient: HttpClient) {
     }
 
-
     /**
-     * TODO: Add method body
-     * Searchs by filter query
-     * @param query query that needs to be send to backend
+     * Gets vacancies by custom query
+     * @param filterQuery Data from form
+     * @param pageNum Current pagenumber to show
+     * @param pageSize Amount of vacancies requested to show on page
+     * @returns requested vacancies
      */
-    public searchByFilterQuery(query: FilterQuery) {
-    }
-
     public getByQuery(filterQuery: FilterQuery, pageNum: number, pageSize: number): Observable<PageResult> {
         let params = new HttpParams();
         params = params.append('skills', 'AWS');
@@ -34,7 +34,7 @@ export class HttpService {
         return this.httpClient.get<PageResult>(environment.api + '/vacancies', {params: params});
     }
 
-
+    
     /**
      * Shows all vacancies
      * @returns Observable with vacancies if request is a success
@@ -56,5 +56,43 @@ export class HttpService {
      */
     public getByID(id: string): Observable<any> {
         return this.httpClient.get(environment.api + '/getByID/' + id);
+    }
+
+
+    /**
+     * Finds all skills
+     * @returns all skills 
+     */
+    public findAllSkills(): Observable<Skill[]> {
+        return this.httpClient.get<Skill[]>(environment.api + '/getskills');
+    }
+
+
+    /**
+     * Deletes skill
+     * @param skill Skill to delete
+     * @returns result 
+     */
+    public deleteSkill(skill: Skill): Observable<ErrorCode> {
+        return this.httpClient.post<ErrorCode>(environment.api + '/deleteskill', skill);
+    }
+
+
+    /**
+     * Relinks skills to vacancies in backend
+     * @returns result
+     */
+    public relinkSkills(): Observable<any> {
+        return this.httpClient.get(environment.api + '/relinkskills');
+    }
+
+
+    /**
+     * Saves skill in backend
+     * @param skill to be saved
+     * @returns result 
+     */
+    public saveSkill(skill: Skill): Observable<ErrorCode> {
+        return this.httpClient.post<ErrorCode>(environment.api + '/saveskill', skill);
     }
 }

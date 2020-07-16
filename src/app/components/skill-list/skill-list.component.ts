@@ -17,15 +17,16 @@
 
 import { Component, OnInit } from '@angular/core';
 import { Skill } from 'src/app/models/skill';
-import { SkillService } from 'src/app/services/skill-service.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ErrorCode} from '../../services/errorCode';
+import { HttpService } from 'src/app/services/http.service';
 
 @Component({
   selector: 'app-skill-list',
   templateUrl: './skill-list.component.html',
-  styleUrls: ['./skill-list.component.css']
+  styleUrls: ['./skill-list.component.css'],
+  providers: [HttpService]
 })
 export class SkillListComponent implements OnInit {
 
@@ -35,13 +36,12 @@ export class SkillListComponent implements OnInit {
 
 
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
-    private skillService: SkillService) {
+    private httpService: HttpService) {
   }
 
     ngOnInit() {
-        this.skillService.findAll().subscribe(data => {
+        this.httpService.findAllSkills().subscribe(data => {
             this.skills = data;
             console.log(data);
         });
@@ -50,7 +50,7 @@ export class SkillListComponent implements OnInit {
     // delete the row from the skill table
   deleteRow(skill: Skill) {
     console.log('delete this row:' + skill.name);
-    this.skillService.deleteSkill(skill).subscribe((data: ErrorCode) => {
+    this.httpService.deleteSkill(skill).subscribe((data: ErrorCode) => {
             if (data.errorCode !== 'OK') {
                 console.log('Failed to delete skill:' + data.errorCode);
                 this.errorMessage =  data.errorCode;
@@ -74,7 +74,7 @@ export class SkillListComponent implements OnInit {
   // rematch the links after table skills has been edited (creates new links records)
   public relinkSkills(): void {
     console.log('relink skills');
-    this.skillService.relinkSkills().subscribe((data: ErrorCode) => {
+    this.httpService.relinkSkills().subscribe((data: ErrorCode) => {
             if (data.errorCode !== 'OK') {
                 console.log('Failed to relink skills:' + data.errorCode);
                 this.errorMessage =  data.errorCode;
@@ -110,7 +110,7 @@ export class SkillListComponent implements OnInit {
 
   private gotoSkillListAfterDelete(): void {
     console.log('now navigate to list after delete');
-    this.skillService.findAll().subscribe((data) => {
+    this.httpService.findAllSkills().subscribe((data) => {
       this.skills = data;
     });
   }

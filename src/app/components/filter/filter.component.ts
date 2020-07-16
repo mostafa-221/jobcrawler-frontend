@@ -6,7 +6,6 @@ import { HttpService } from 'src/app/services/http.service';
 import { Observable, Subject, ReplaySubject } from 'rxjs';
 import { map, startWith, takeUntil } from 'rxjs/operators';
 import { LoaderService } from 'src/app/services/loader.service';
-import { SkillService } from 'src/app/services/skill-service.service';
 import { Skill } from 'src/app/models/skill';
 import { MatSelect } from '@angular/material/select';
 import { PageEvent } from '@angular/material/paginator';
@@ -50,8 +49,7 @@ export class FilterComponent implements OnInit, OnDestroy {
    */
   constructor(private form: FormBuilder,
     private httpService: HttpService,
-    private loaderService: LoaderService,
-    private skillService: SkillService) {}
+    private loaderService: LoaderService) {}
 
   /**
    * Function gets executed upon initialization.
@@ -157,7 +155,7 @@ export class FilterComponent implements OnInit, OnDestroy {
    * @returns skills as Promise
    */
   private getSkills(): Promise<any> {
-    return this.skillService.findAll().toPromise();
+    return this.httpService.findAllSkills().toPromise();
   }
 
   /**

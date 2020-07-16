@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Skill} from 'src/app/models/skill';
-import {SkillService} from 'src/app/services/skill-service.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ErrorCode} from '../../services/errorCode';
+import { HttpService } from 'src/app/services/http.service';
 
 /*
 *   Adding a skill by name
@@ -16,14 +16,14 @@ import {ErrorCode} from '../../services/errorCode';
 @Component({
     selector: 'app-skill-form',
     templateUrl: './skill-form.component.html',
-    styleUrls: ['./skill-form.component.css']
+    styleUrls: ['./skill-form.component.css'],
+    providers: [HttpService]
 })
 export class SkillFormComponent {
 
     constructor(
-        private route: ActivatedRoute,
         private router: Router,
-        private skillService: SkillService) {
+        private httpService: HttpService) {
         this.skill = new Skill();
     }
 
@@ -38,7 +38,7 @@ export class SkillFormComponent {
 
     public onSubmit(): void {
         this.skillAcceptedBackend = true;
-        this.skillService.save(this.skill).subscribe((data: ErrorCode) => {
+        this.httpService.saveSkill(this.skill).subscribe((data: ErrorCode) => {
                 if (data.errorCode !== 'OK') {
                     console.log(data.errorCode);
                     this.errorMessage = data.errorCode;
