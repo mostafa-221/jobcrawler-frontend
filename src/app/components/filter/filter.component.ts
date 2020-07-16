@@ -30,7 +30,7 @@ export class FilterComponent implements OnInit, OnDestroy {
   isLoading: Subject<boolean> = this.loaderService.isLoading;
 
   totalVacancies: number;
-  pageSize: number = 10;
+  pageSize: number = 15;
   currentPage: number;
   pageEvent: PageEvent;
 
@@ -60,9 +60,7 @@ export class FilterComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // this.loadForm();
 
-    // if (!this.vacancies) {
-      this.searchVacancies(this.pageEvent);
-    // }
+    this.searchVacancies(this.pageEvent);
   }
 
 
@@ -102,8 +100,7 @@ export class FilterComponent implements OnInit, OnDestroy {
     if (pageEvent) this.pageSize = pageEvent.pageSize;
 
     this.vacancies = [];
-    const filterQuery = null;
-    this.httpService.getByQuery(filterQuery, pageNum, this.pageSize)
+    this.httpService.getByQuery(new FilterQuery(), pageNum, this.pageSize)
     .pipe(takeUntil(this._onDestroy))
     .subscribe((page: PageResult) => {
       page.vacancies.forEach((vacancy: Vacancy) => {
