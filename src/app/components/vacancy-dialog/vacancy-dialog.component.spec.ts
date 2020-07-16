@@ -4,7 +4,7 @@ import { VacancyDialogComponent } from './vacancy-dialog.component';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Vacancy } from 'src/app/models/vacancy';
-import { FilterService } from 'src/app/services/filter.service';
+import { HttpService } from 'src/app/services/http.service';
 import { Component, NgModule } from '@angular/core';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -24,7 +24,7 @@ describe('VacancyDialogComponent', () => {
         DialogTestModule],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: ['1']},
-        FilterService,
+        HttpService,
         { provide: OverlayContainer, useFactory: () => {
           overlayContainerElement = document.createElement('div');
           return { getContainerElement: () => overlayContainerElement };
@@ -35,7 +35,7 @@ describe('VacancyDialogComponent', () => {
   }));
 
   beforeEach(() => {
-    service = TestBed.get(FilterService);
+    service = TestBed.get(HttpService);
     dialog = TestBed.get(MatDialog);
     fixture = TestBed.createComponent(VacancyDialogComponent);
     component = fixture.componentInstance;
@@ -56,6 +56,7 @@ describe('VacancyDialogComponent', () => {
           hours: 40,
           location: 'Nieuwegein',
           postingDate: 'today',
+          salaray: '',
           about: 'random',
           skills: []
       };

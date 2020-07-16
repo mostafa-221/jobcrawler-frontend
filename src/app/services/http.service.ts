@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { PageResult } from '../models/pageresult.model';
 
 @Injectable()
-export class FilterService {
+export class HttpService {
 
 
     /**

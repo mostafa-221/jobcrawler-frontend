@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, OnDestroy, Input } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { FilterQuery } from 'src/app/models/filterQuery.model';
 import { IVacancies } from 'src/app/models/ivacancies';
-import { FilterService } from 'src/app/services/filter.service';
+import { HttpService } from 'src/app/services/http.service';
 import { Observable, Subject, ReplaySubject } from 'rxjs';
 import { map, startWith, takeUntil } from 'rxjs/operators';
 import { LoaderService } from 'src/app/services/loader.service';
@@ -17,7 +17,7 @@ import { Vacancy } from 'src/app/models/vacancy';
   selector: 'app-filter',
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.scss'],
-  providers: [FilterService]
+  providers: [HttpService]
 })
 export class FilterComponent implements OnInit, OnDestroy {
 
@@ -49,7 +49,7 @@ export class FilterComponent implements OnInit, OnDestroy {
    * @param loaderService HttpInterceptor
    */
   constructor(private form: FormBuilder,
-    private filterService: FilterService,
+    private httpService: HttpService,
     private loaderService: LoaderService,
     private skillService: SkillService) {}
 
@@ -85,25 +85,6 @@ export class FilterComponent implements OnInit, OnDestroy {
 
 
   /**
-   * Gets all vacancies
-   */
-  public getAllVacancies(): void {
-    this.filterService.showAllVacancies().subscribe((data: any) => {
-      data.vacancies.forEach(vacancy => {
-        this.vacancies.push({
-            title: vacancy.title,
-            broker: vacancy.broker,
-            postingDate: vacancy.postingDate,
-            location: vacancy.location,
-            id: vacancy.id,
-            vacancyUrl: vacancy.vacancyURL
-        });
-      });
-    });
-  }
-
-
-  /**
    * TODO: Connect this function to send request to backend.
    * Converts form to json format. Currently logged to console and calls the getAllVacancies() function.
    */
@@ -124,7 +105,7 @@ export class FilterComponent implements OnInit, OnDestroy {
 
     this.vacancies = [];
     const filterQuery = null;
-    this.filterService.getByQuery(filterQuery, pageNum, this.pageSize)
+    this.httpService.getByQuery(filterQuery, pageNum, this.pageSize)
     .pipe(takeUntil(this._onDestroy))
     .subscribe((page: PageResult) => {
       page.vacancies.forEach((vacancy: Vacancy) => {
