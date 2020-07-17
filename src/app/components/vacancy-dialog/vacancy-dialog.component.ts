@@ -1,13 +1,13 @@
 import { Component, Inject, AfterContentInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FilterService } from 'src/app/services/filter.service';
+import { HttpService } from 'src/app/services/http.service';
 import { Vacancy } from 'src/app/models/vacancy';
 
 @Component({
   selector: 'app-vacancy-dialog',
   templateUrl: './vacancy-dialog.component.html',
   styleUrls: ['./vacancy-dialog.component.css'],
-  providers: [FilterService]
+  providers: [HttpService]
 })
 export class VacancyDialogComponent implements AfterContentInit {
 
@@ -21,7 +21,7 @@ export class VacancyDialogComponent implements AfterContentInit {
    * @param filterService Service used for http request
    */
   constructor(@Inject(MAT_DIALOG_DATA) public vacancyID: string,
-              private filterService: FilterService) { }
+              private httpService: HttpService) { }
 
 
 
@@ -39,7 +39,7 @@ export class VacancyDialogComponent implements AfterContentInit {
    * @param vacancyID id from which details are requested
    */
   getVacancyDetails(vacancyID: string): void {
-    this.filterService.getByID(this.vacancyID).subscribe((data: any) => {
+    this.httpService.getByID(this.vacancyID).subscribe((data: any) => {
       this.vacancy = data;
   }, err => {
       this.errorMSG = err.error.message;

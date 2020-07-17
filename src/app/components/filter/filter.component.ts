@@ -1,30 +1,44 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { Component, OnInit, ViewChild, OnDestroy, Input } from '@angular/core';
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { FilterQuery } from 'src/app/models/filterQuery.model';
 import { IVacancies } from 'src/app/models/ivacancies';
-import { FilterService } from 'src/app/services/filter.service';
-import { Observable, Subject } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { HttpService } from 'src/app/services/http.service';
+import { Observable, Subject, ReplaySubject } from 'rxjs';
+import { map, startWith, takeUntil } from 'rxjs/operators';
 import { LoaderService } from 'src/app/services/loader.service';
-import { SkillService } from 'src/app/services/skill-service.service';
 import { Skill } from 'src/app/models/skill';
+import { MatSelect } from '@angular/material/select';
+import { PageEvent } from '@angular/material/paginator';
+import { PageResult } from 'src/app/models/pageresult.model';
+import { Vacancy } from 'src/app/models/vacancy';
 
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.scss'],
-  providers: [FilterService]
+  providers: [HttpService]
 })
-export class FilterComponent implements OnInit {
+export class FilterComponent implements OnInit, OnDestroy {
 
   isShow: boolean = false;
   searchForm: FormGroup;
-  skills: string[] = ['Java', 'Spring', 'Angular', 'HTML', 'Postgres', 'Mockito', 'JUnit'];
+  skills: string[];
   vacancies: IVacancies[] = [];
   cities: string[] = ['Amsterdam', 'Den Haag', 'Rotterdam', 'Utrecht'];
   showForm: boolean = false;
   filteredCities: Observable<String[]>;
   isLoading: Subject<boolean> = this.loaderService.isLoading;
+
+  totalVacancies: number;
+  pageSize: number = 15;
+  currentPage: number;
+  pageEvent: PageEvent;
+
+  public skillMultiCtrl: FormControl = new FormControl();
+  public skillMultiFilterCtrl: FormControl = new FormControl();
+  public filteredSkillsMulti: ReplaySubject<String[]> = new ReplaySubject<String[]>(1);
+  protected _onDestroy = new Subject<void>();
+  @ViewChild('multiSelect', {static: true}) multiSelect: MatSelect;
 
 
   /**
@@ -34,9 +48,8 @@ export class FilterComponent implements OnInit {
    * @param loaderService HttpInterceptor
    */
   constructor(private form: FormBuilder,
-    private filterService: FilterService,
-    private loaderService: LoaderService,
-    private skillService: SkillService) {}
+    private httpService: HttpService,
+    private loaderService: LoaderService) {}
 
   /**
    * Function gets executed upon initialization.
@@ -46,7 +59,17 @@ export class FilterComponent implements OnInit {
    */
   ngOnInit(): void {
     this.loadForm();
-    this.getAllVacancies();
+
+    this.searchVacancies(this.pageEvent);
+  }
+
+
+  /**
+   * Destroys ngx-mat-select-search upon leaving page
+   */
+  ngOnDestroy(): void {
+    this._onDestroy.next();
+    this._onDestroy.complete();
   }
 
   /**
@@ -58,11 +81,41 @@ export class FilterComponent implements OnInit {
 
 
   /**
-   * Gets all vacancies
+   * TODO: Connect this function to send request to backend.
+   * Converts form to json format. Currently logged to console and calls the getAllVacancies() function.
    */
-  public getAllVacancies(): void {
-    this.filterService.showAllVacancies().subscribe((data: any) => {
-      data.vacancies.forEach(vacancy => {
+  public searchVacancies(pageEvent?: PageEvent): void {
+    let filterQuery: FilterQuery;
+
+    if(this.searchForm !== undefined) {
+      filterQuery = this.searchForm.value as FilterQuery;
+
+      if (this.skillMultiCtrl.value != null)
+        filterQuery.skills = this.skillMultiCtrl.value;
+
+      if(!filterQuery.fromDate) filterQuery.fromDate = '';
+
+      if(!filterQuery.toDate) filterQuery.toDate = '';
+    } else {
+      this.isShow = true;
+      filterQuery = new FilterQuery();
+      filterQuery.city = '';
+      filterQuery.distance = 0;
+      filterQuery.fromDate = '';
+      filterQuery.toDate = '';
+      filterQuery.keyword = '';
+      filterQuery.skills = [];
+    }
+    console.log(filterQuery);
+
+    const pageNum = pageEvent ? pageEvent.pageIndex : 0;
+    if (pageEvent) this.pageSize = pageEvent.pageSize;
+
+    this.vacancies = [];
+    this.httpService.getByQuery(filterQuery, pageNum, this.pageSize)
+    .pipe(takeUntil(this._onDestroy))
+    .subscribe((page: PageResult) => {
+      page.vacancies.forEach((vacancy: Vacancy) => {
         this.vacancies.push({
             title: vacancy.title,
             broker: vacancy.broker,
@@ -72,27 +125,9 @@ export class FilterComponent implements OnInit {
             vacancyUrl: vacancy.vacancyURL
         });
       });
+      this.totalVacancies = page.totalItems;
+      this.currentPage = pageNum;
     });
-  }
-
-
-  /**
-   * TODO: Connect this function to send request to backend.
-   * Converts form to json format. Currently logged to console and calls the getAllVacancies() function.
-   */
-  public searchVacancies(): void {
-    const filterQuery: FilterQuery = this.searchForm.value as FilterQuery;
-    filterQuery.skills = filterQuery.skills.filter(a => a.selected == true).map(a => {
-      return a.name;
-    });
-
-    if(!filterQuery.fromDate) filterQuery.fromDate = '';
-
-    if(!filterQuery.toDate) filterQuery.toDate = '';
-
-    console.log(filterQuery);
-
-    this.getAllVacancies();
 
   }
 
@@ -101,6 +136,7 @@ export class FilterComponent implements OnInit {
    */
   public resetForm(): void {
     this.searchForm.reset(this.constructSearchForm());
+    this.skillMultiCtrl.reset();
     this.vacancies = [];
   }
 
@@ -115,9 +151,14 @@ export class FilterComponent implements OnInit {
         skillData.push(skill.name);
       });
       this.skills = skillData;
+      this.filteredSkillsMulti.next(this.skills.slice());
       this.constructSearchForm().then(() => {
         this.showForm = true;
       });
+    },
+    err => {
+      console.log("Failed loading form");
+      console.log(err.message);
     });
   }
 
@@ -127,7 +168,7 @@ export class FilterComponent implements OnInit {
    * @returns skills as Promise
    */
   private getSkills(): Promise<any> {
-    return this.skillService.findAll().toPromise();
+    return this.httpService.findAllSkills().toPromise();
   }
 
   /**
@@ -145,19 +186,10 @@ export class FilterComponent implements OnInit {
    */
   private constructSearchForm(): Promise<any> {
     return new Promise((resolve) => {
-      const buildSkills = () => {
-        const arr = this.skills.map(skill => {
-          return this.form.group({
-            name: skill,
-            selected: false
-          });
-        });
-        return new FormArray(arr);
-      }
-
       this.searchForm = this.form.group({
+        keyword: '',
         city: '',
-        skills: buildSkills(),
+        skills: '',
         distance: '',
         fromDate: '',
         toDate: ''
@@ -169,8 +201,37 @@ export class FilterComponent implements OnInit {
           map(value => this._filterCity(value || ''))
         );
 
+      this.skillMultiFilterCtrl.valueChanges
+      .pipe(takeUntil(this._onDestroy))
+      .subscribe(() => {
+        this.filterSkillsMulti();
+      });
+
       resolve();
     });
+  }
+
+
+  /**
+   * Easily search and select skills
+   * @returns Does not return anything, prevent method to continue 
+   */
+  private filterSkillsMulti(): any {
+    if (!this.skills) {
+      return;
+    }
+    
+    let search = this.skillMultiFilterCtrl.value;
+    if (!search) {
+      this.filteredSkillsMulti.next(this.skills.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+
+    this.filteredSkillsMulti.next(
+      this.skills.filter(skill => skill.toLowerCase().indexOf(search) === 0)
+    )
   }
 
 }

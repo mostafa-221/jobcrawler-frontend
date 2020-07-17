@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FilterComponent } from './filter.component';
-import { FilterService } from 'src/app/services/filter.service';
+import { HttpService } from 'src/app/services/http.service';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
@@ -25,7 +25,7 @@ describe('FilterComponent', () => {
       ],
       providers: [
         FormBuilder,
-        FilterService,
+        HttpService,
         LoaderService,
         { provide: MatDialog, useValue: {}},
         { provide: MAT_DIALOG_DATA, useValue: []}

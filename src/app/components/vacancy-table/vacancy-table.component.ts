@@ -1,6 +1,5 @@
 import { Component, Output, Input, OnChanges } from '@angular/core';
 import { EventEmitter } from '@angular/core';
-import { FilterService } from 'src/app/services/filter.service';
 import { IVacancies } from 'src/app/models/ivacancies';
 import { MatDialog } from '@angular/material/dialog';
 import { VacancyDialogComponent } from '../vacancy-dialog/vacancy-dialog.component';
@@ -8,8 +7,7 @@ import { VacancyDialogComponent } from '../vacancy-dialog/vacancy-dialog.compone
 @Component({
   selector: 'app-vacancy-table',
   templateUrl: './vacancy-table.component.html',
-  styleUrls: ['./vacancy-table.component.scss'],
-  providers: [FilterService]
+  styleUrls: ['./vacancy-table.component.scss']
 })
 export class VacancyTableComponent implements OnChanges {
 
@@ -38,7 +36,7 @@ export class VacancyTableComponent implements OnChanges {
   /**
    * Function for resizing filter/table.
    */
-  resizeFilterClick(): void {
+  public resizeFilterClick(): void {
     this.filterButtonClicked.emit();
   }
 
@@ -47,7 +45,7 @@ export class VacancyTableComponent implements OnChanges {
    * Opens dialog / modal
    * @param vacancyID id that is passed to vacancy-dialog.component
    */
-  openDialog(vacancyID: string): void {
+  public openDialog(vacancyID: string): void {
     this.dialog.open(VacancyDialogComponent, { data: vacancyID });
   }
 

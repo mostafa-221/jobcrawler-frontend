@@ -13,19 +13,19 @@
 
 .table-container-no-filter,
 .table-container {
-    height: calc(100vh - 250px);
+    height: calc(100vh - 280px);
     overflow-x: hidden;
     overflow-y: auto;
 }
 
-@media screen and (max-width: $device-desktop) {
+@media screen and (max-width: $device-phone) {
     .table-container {
-        height: calc(100vh - 250px);
+        height: calc(100vh - 330px);
         overflow-x: hidden;
         overflow-y: auto;
     }
     .table-container-no-filter {
-        height: calc(100vh - 650px);
+        height: calc(100vh - 680px);
         overflow-x: hidden;
         overflow-y: auto;
     }

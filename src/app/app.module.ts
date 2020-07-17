@@ -17,7 +17,6 @@ import { LoaderService } from './services/loader.service';
 import { LoaderInterceptor } from './interceptors/loader.interceptor';
 import { SkillListComponent } from 'src/app/components/skill-list/skill-list.component';
 import { SkillFormComponent } from './components/skill-form/skill-form.component';
-import { SkillService } from './services/skill-service.service';
 
 
 @NgModule({
@@ -41,8 +40,7 @@ import { SkillService } from './services/skill-service.service';
     ],
     providers: [
         LoaderService,
-        { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
-        SkillService
+        { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }
     ],
     bootstrap: [AppComponent],
     entryComponents: [VacancyDialogComponent]

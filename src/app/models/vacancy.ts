@@ -6,6 +6,7 @@ export class Vacancy {
     vacancyNumber: string;
     hours: number;
     location: string;
+    salaray: string;
     postingDate: string;
     about: string;
     skills: any[];
