@@ -47,6 +47,16 @@ export class HttpService {
 
 
     /**
+     * Gets skills for vacancy
+     * @param url 
+     * @returns skills for vacancy 
+     */
+    public getSkillsForVacancy(url: string): Observable<any> {
+        return this.httpClient.get(url);
+    }
+
+
+    /**
      * Finds all skills
      * @returns all skills 
      */

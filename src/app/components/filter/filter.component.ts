@@ -90,8 +90,11 @@ export class FilterComponent implements OnInit, OnDestroy {
     if(this.searchForm !== undefined) {
       filterQuery = this.searchForm.value as FilterQuery;
 
-      if (this.skillMultiCtrl.value != null)
+      if (this.skillMultiCtrl.value !== null) {
         filterQuery.skills = this.skillMultiCtrl.value;
+      } else {
+        filterQuery.skills = [];
+      }
 
       if(!filterQuery.fromDate) filterQuery.fromDate = '';
 
@@ -154,6 +157,7 @@ export class FilterComponent implements OnInit, OnDestroy {
       this.filteredSkillsMulti.next(this.skills.slice());
       this.constructSearchForm().then(() => {
         this.showForm = true;
+        this.isShow = false;
       });
     },
     err => {
