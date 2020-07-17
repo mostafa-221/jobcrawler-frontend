@@ -60,8 +60,8 @@ export class HttpService {
      * Finds all skills
      * @returns all skills 
      */
-    public findAllSkills(): Observable<Skill[]> {
-        return this.httpClient.get<Skill[]>(environment.api + '/getskills');
+    public findAllSkills(): Observable<any> {
+        return this.httpClient.get<any>(environment.api + '/skills');
     }
 
 
@@ -70,8 +70,8 @@ export class HttpService {
      * @param skill Skill to delete
      * @returns result 
      */
-    public deleteSkill(skill: Skill): Observable<ErrorCode> {
-        return this.httpClient.post<ErrorCode>(environment.api + '/deleteskill', skill);
+    public deleteSkill(url: string): Observable<ErrorCode> {
+        return this.httpClient.delete<ErrorCode>(url);
     }
 
 

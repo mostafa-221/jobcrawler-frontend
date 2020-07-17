@@ -146,9 +146,9 @@ export class FilterComponent implements OnInit, OnDestroy {
    * Loads form asynchronous
    */
   private loadForm(): void {
-    this.getSkills().then((data: Skill[]) => {
+    this.getSkills().then((data: any) => {
       let skillData = [];
-      data.forEach((skill: Skill) => {
+      data._embedded.skills.forEach((skill: any) => {
         skillData.push(skill.name);
       });
       this.skills = skillData;
