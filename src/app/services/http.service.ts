@@ -26,11 +26,10 @@ export class HttpService {
      * @returns requested vacancies
      */
     public getByQuery(filterQuery: FilterQuery, pageNum: number, pageSize: number): Observable<PageResult> {
-        filterQuery.keyword = "Senior";
         let params = new HttpParams();
-        params = params.append('skills', 'AWS');
         params = params.append('size', String(pageSize));
         params = params.append('page', String(pageNum));
+        params = params.append('skills', filterQuery.skills.join());
         params = params.append('value', filterQuery.keyword);
 
         return this.httpClient.get<PageResult>(environment.api + '/vacancies', {params: params});

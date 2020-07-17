@@ -85,22 +85,33 @@ export class FilterComponent implements OnInit, OnDestroy {
    * Converts form to json format. Currently logged to console and calls the getAllVacancies() function.
    */
   public searchVacancies(pageEvent?: PageEvent): void {
-    // const filterQuery: FilterQuery = this.searchForm.value as FilterQuery;
+    let filterQuery: FilterQuery;
 
-    // if (this.skillMultiCtrl.value != null)
-    //   filterQuery.skills = this.skillMultiCtrl.value;
+    if(this.searchForm !== undefined) {
+      filterQuery = this.searchForm.value as FilterQuery;
 
-    // if(!filterQuery.fromDate) filterQuery.fromDate = '';
+      if (this.skillMultiCtrl.value != null)
+        filterQuery.skills = this.skillMultiCtrl.value;
 
-    // if(!filterQuery.toDate) filterQuery.toDate = '';
+      if(!filterQuery.fromDate) filterQuery.fromDate = '';
 
-    // console.log(filterQuery);
+      if(!filterQuery.toDate) filterQuery.toDate = '';
+    } else {
+      filterQuery = new FilterQuery();
+      filterQuery.city = '';
+      filterQuery.distance = 0;
+      filterQuery.fromDate = '';
+      filterQuery.toDate = '';
+      filterQuery.keyword = '';
+      filterQuery.skills = [];
+    }
+    console.log(filterQuery);
 
     const pageNum = pageEvent ? pageEvent.pageIndex : 0;
     if (pageEvent) this.pageSize = pageEvent.pageSize;
 
     this.vacancies = [];
-    this.httpService.getByQuery(new FilterQuery(), pageNum, this.pageSize)
+    this.httpService.getByQuery(filterQuery, pageNum, this.pageSize)
     .pipe(takeUntil(this._onDestroy))
     .subscribe((page: PageResult) => {
       page.vacancies.forEach((vacancy: Vacancy) => {
