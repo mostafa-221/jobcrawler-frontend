@@ -40,35 +40,40 @@ export class SkillListComponent implements OnInit {
     private httpService: HttpService) {
   }
 
-    ngOnInit() {
-        this.httpService.findAllSkills().subscribe(data => {
-            this.skills = data;
-            console.log(data);
+  ngOnInit() {
+      this.getSkills();
+  }
+
+  public getSkills(): void {
+    this.httpService.findAllSkills().subscribe((data: any) => {
+      let skillData: Skill[] = [];
+      data._embedded.skills.forEach((skill: any) => {
+        skillData.push({
+          href: skill._links.self.href,
+          name: skill.name
         });
-    }
+      });
+      this.skills = skillData;
+    });
+  }
 
     // delete the row from the skill table
-  deleteRow(skill: Skill) {
+  public deleteRow(skill: Skill): void {
     console.log('delete this row:' + skill.name);
-    this.httpService.deleteSkill(skill).subscribe((data: ErrorCode) => {
-            if (data.errorCode !== 'OK') {
-                console.log('Failed to delete skill:' + data.errorCode);
-                this.errorMessage =  data.errorCode;
-                this.backEndProcessed = false;
-            } else {
-                this.errorMessage = '';
-                this.backEndProcessed = true;
-                console.log('successfully saved new skill:' + skill.name);
-                this.gotoSkillListAfterDelete();
-            }
-        },
-        err => {
-            if (err instanceof HttpErrorResponse) {
-                console.log( 'Failed to delete skill:' +  err.message );
-                this.errorMessage =  err.message;
-                this.backEndProcessed = false;
-            }
-        });
+    this.httpService.deleteSkill(skill.href).subscribe(() => {
+        this.backEndProcessed = true;
+        const index: number = this.skills.indexOf(skill);
+        this.skills.splice(index, 1);
+    },
+    err => {
+      console.log("An error occured");
+      console.log(err);
+      if (err instanceof HttpErrorResponse) {
+        console.log( 'Failed to delete skill:' +  err.message );
+        this.errorMessage =  err.message;
+        this.backEndProcessed = false;
+      }
+    });
   }
 
   // rematch the links after table skills has been edited (creates new links records)
@@ -83,7 +88,6 @@ export class SkillListComponent implements OnInit {
                 this.errorMessage = '';
                 this.backEndProcessed = true;
                 console.log('successfully relinked skills');
-                this.gotoSkillListAfterDelete();
             }
         },
         err => {
@@ -105,13 +109,4 @@ export class SkillListComponent implements OnInit {
     this.router.navigate(['addskill']);
   }
 
-
-
-
-  private gotoSkillListAfterDelete(): void {
-    console.log('now navigate to list after delete');
-    this.httpService.findAllSkills().subscribe((data) => {
-      this.skills = data;
-    });
-  }
 }

@@ -90,8 +90,11 @@ export class FilterComponent implements OnInit, OnDestroy {
     if(this.searchForm !== undefined) {
       filterQuery = this.searchForm.value as FilterQuery;
 
-      if (this.skillMultiCtrl.value != null)
+      if (this.skillMultiCtrl.value !== null) {
         filterQuery.skills = this.skillMultiCtrl.value;
+      } else {
+        filterQuery.skills = [];
+      }
 
       if(!filterQuery.fromDate) filterQuery.fromDate = '';
 
@@ -106,7 +109,6 @@ export class FilterComponent implements OnInit, OnDestroy {
       filterQuery.keyword = '';
       filterQuery.skills = [];
     }
-    console.log(filterQuery);
 
     const pageNum = pageEvent ? pageEvent.pageIndex : 0;
     if (pageEvent) this.pageSize = pageEvent.pageSize;
@@ -137,7 +139,6 @@ export class FilterComponent implements OnInit, OnDestroy {
   public resetForm(): void {
     this.searchForm.reset(this.constructSearchForm());
     this.skillMultiCtrl.reset();
-    this.vacancies = [];
   }
 
 
@@ -145,15 +146,16 @@ export class FilterComponent implements OnInit, OnDestroy {
    * Loads form asynchronous
    */
   private loadForm(): void {
-    this.getSkills().then((data: Skill[]) => {
+    this.getSkills().then((data: any) => {
       let skillData = [];
-      data.forEach((skill: Skill) => {
+      data._embedded.skills.forEach((skill: any) => {
         skillData.push(skill.name);
       });
       this.skills = skillData;
       this.filteredSkillsMulti.next(this.skills.slice());
       this.constructSearchForm().then(() => {
         this.showForm = true;
+        this.isShow = false;
       });
     },
     err => {

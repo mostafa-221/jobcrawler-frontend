@@ -47,11 +47,21 @@ export class HttpService {
 
 
     /**
+     * Gets skills for vacancy
+     * @param url 
+     * @returns skills for vacancy 
+     */
+    public getSkillsForVacancy(url: string): Observable<any> {
+        return this.httpClient.get(url);
+    }
+
+
+    /**
      * Finds all skills
      * @returns all skills 
      */
-    public findAllSkills(): Observable<Skill[]> {
-        return this.httpClient.get<Skill[]>(environment.api + '/getskills');
+    public findAllSkills(): Observable<any> {
+        return this.httpClient.get<any>(environment.api + '/skills');
     }
 
 
@@ -60,8 +70,8 @@ export class HttpService {
      * @param skill Skill to delete
      * @returns result 
      */
-    public deleteSkill(skill: Skill): Observable<ErrorCode> {
-        return this.httpClient.post<ErrorCode>(environment.api + '/deleteskill', skill);
+    public deleteSkill(url: string): Observable<ErrorCode> {
+        return this.httpClient.delete<ErrorCode>(url);
     }
 
 
@@ -70,7 +80,7 @@ export class HttpService {
      * @returns result
      */
     public relinkSkills(): Observable<any> {
-        return this.httpClient.put(environment.api + '/relinkskills', {});
+        return this.httpClient.put(environment.api + '/skillmatcher', {});
     }
 
 
@@ -79,7 +89,7 @@ export class HttpService {
      * @param skill to be saved
      * @returns result 
      */
-    public saveSkill(skill: Skill): Observable<ErrorCode> {
-        return this.httpClient.post<ErrorCode>(environment.api + '/saveskill', skill);
+    public saveSkill(skill: Skill): Observable<any> {
+        return this.httpClient.post<any>(environment.api + '/skills', {name: skill.name});
     }
 }

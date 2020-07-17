@@ -9,7 +9,7 @@
 
 
 export class Skill {
-    id: string;
+    href: string;
     name: string;
 }
 
