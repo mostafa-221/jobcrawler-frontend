@@ -58,7 +58,7 @@ export class FilterComponent implements OnInit, OnDestroy {
    * Detect changes to 'city' field.
    */
   ngOnInit(): void {
-    // this.loadForm();
+    this.loadForm();
 
     this.searchVacancies(this.pageEvent);
   }
@@ -155,6 +155,10 @@ export class FilterComponent implements OnInit, OnDestroy {
       this.constructSearchForm().then(() => {
         this.showForm = true;
       });
+    },
+    err => {
+      console.log("Failed loading form");
+      console.log(err.message);
     });
   }
 
