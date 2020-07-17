@@ -140,7 +140,6 @@ export class FilterComponent implements OnInit, OnDestroy {
   public resetForm(): void {
     this.searchForm.reset(this.constructSearchForm());
     this.skillMultiCtrl.reset();
-    this.vacancies = [];
   }
 
 
