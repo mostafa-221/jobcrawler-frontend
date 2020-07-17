@@ -38,17 +38,13 @@ export class SkillFormComponent {
 
     public onSubmit(): void {
         this.skillAcceptedBackend = true;
-        this.httpService.saveSkill(this.skill).subscribe((data: ErrorCode) => {
-                if (data.errorCode !== 'OK') {
-                    console.log(data.errorCode);
-                    this.errorMessage = data.errorCode;
-                    this.skillAcceptedBackend = false;
-                } else {
+        this.httpService.saveSkill(this.skill).subscribe(() => {
                     console.log('successfully saved new skill:' + this.skill.name);
                     this.gotoSkillListAfterAddition();
-                }
             },
             err => {
+                console.log("Some error occured");
+                console.log(err);
                     if (err instanceof HttpErrorResponse) {
                         console.log('Error adding skill in backend:' + this.skill.name );
                         this.errorMessage = 'Error adding skill in backend:' + err.message;

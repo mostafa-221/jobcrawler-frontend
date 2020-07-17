@@ -89,7 +89,7 @@ export class HttpService {
      * @param skill to be saved
      * @returns result 
      */
-    public saveSkill(skill: Skill): Observable<ErrorCode> {
-        return this.httpClient.post<ErrorCode>(environment.api + '/saveskill', skill);
+    public saveSkill(skill: Skill): Observable<any> {
+        return this.httpClient.post<any>(environment.api + '/skills', {name: skill.name});
     }
 }

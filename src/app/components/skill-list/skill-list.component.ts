@@ -58,10 +58,9 @@ export class SkillListComponent implements OnInit {
   }
 
     // delete the row from the skill table
-  deleteRow(skill: Skill) {
+  public deleteRow(skill: Skill): void {
     console.log('delete this row:' + skill.name);
     this.httpService.deleteSkill(skill.href).subscribe(() => {
-        this.errorMessage = '';
         this.backEndProcessed = true;
         const index: number = this.skills.indexOf(skill);
         this.skills.splice(index, 1);
@@ -109,5 +108,5 @@ export class SkillListComponent implements OnInit {
   public addSkill(): void {
     this.router.navigate(['addskill']);
   }
-  
+
 }
