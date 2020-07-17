@@ -109,7 +109,6 @@ export class FilterComponent implements OnInit, OnDestroy {
       filterQuery.keyword = '';
       filterQuery.skills = [];
     }
-    console.log(filterQuery);
 
     const pageNum = pageEvent ? pageEvent.pageIndex : 0;
     if (pageEvent) this.pageSize = pageEvent.pageSize;
