@@ -35,20 +35,6 @@ export class HttpService {
         return this.httpClient.get<PageResult>(environment.api + '/vacancies', {params: params});
     }
 
-    
-    /**
-     * Shows all vacancies
-     * @returns Observable with vacancies if request is a success
-     */
-    public showAllVacancies(): Observable<any> {
-        const nullBody = {
-            location: null,
-            distance: null,
-            keywords: null
-        };
-        return this.httpClient.post(environment.api + '/searchrequest', nullBody);
-    }
-
 
     /**
      * Gets vacancy by id
@@ -56,7 +42,7 @@ export class HttpService {
      * @returns Observable with vacancy details if success
      */
     public getByID(id: string): Observable<any> {
-        return this.httpClient.get(environment.api + '/getByID/' + id);
+        return this.httpClient.get(environment.api + '/vacancies/' + id);
     }
 
 
