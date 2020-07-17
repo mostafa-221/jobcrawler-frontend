@@ -80,7 +80,7 @@ export class HttpService {
      * @returns result
      */
     public relinkSkills(): Observable<any> {
-        return this.httpClient.put(environment.api + '/relinkskills', {});
+        return this.httpClient.put(environment.api + '/skillmatcher', {});
     }
 
 
