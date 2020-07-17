@@ -97,6 +97,7 @@ export class FilterComponent implements OnInit, OnDestroy {
 
       if(!filterQuery.toDate) filterQuery.toDate = '';
     } else {
+      this.isShow = !this.isShow;
       filterQuery = new FilterQuery();
       filterQuery.city = '';
       filterQuery.distance = 0;
