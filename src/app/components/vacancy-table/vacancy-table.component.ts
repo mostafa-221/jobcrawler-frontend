@@ -3,6 +3,7 @@ import { EventEmitter } from '@angular/core';
 import { IVacancies } from 'src/app/models/ivacancies';
 import { MatDialog } from '@angular/material/dialog';
 import { VacancyDialogComponent } from '../vacancy-dialog/vacancy-dialog.component';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-vacancy-table',
