@@ -61,7 +61,7 @@ export class HttpService {
      * @returns all skills 
      */
     public findAllSkills(): Observable<any> {
-        return this.httpClient.get<any>(environment.api + '/skills');
+        return this.httpClient.get<any>(environment.api + '/skills/search/findByOrderByNameAsc');
     }
 
 
