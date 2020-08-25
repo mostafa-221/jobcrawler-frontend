@@ -1,4 +1,6 @@
 # Jobcrawler Frontend
+**This repository is no longer maintained.** Please head to [Jobcrawler-frontend](https://github.com/Jobcrawler-Ordina/jobcrawler-frontend) for furthur development.
+
 Front end for the internet crawler to search for IT vacancies
 
 ## Getting Started
